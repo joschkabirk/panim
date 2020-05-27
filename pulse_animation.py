@@ -11,22 +11,81 @@ c = 1
 
 
 def k(nu, k0=1, k1=0, k2=0):
-    """ calculates the wave vector k as a function of the frequency nu """
+    """Calculates the wave vector k as a function of the frequency nu 
+
+    Parameters
+    ----------
+    k0 : float, optional
+        Zero-order derivative 
+    k1 : float, optional
+        First order derivative dk/dω
+    k2 : float, optional
+        Second order derivative d^2k/dω^2
+
+    Returns
+    -------
+    k : float
+        Wave vector k(ω)
+
+    """
 
     omega = 2 * np.pi * nu
 
     return k0 + k1 * omega + k2 * omega**2
 
 
-def sin_sum(z, t, nu_center=1, nu_min=0.001, N_frequencies=4000, 
-            k_i=[1, 5, 0], plotting=False, figuresize=(11, 4), spec_width=200):
-    """ calculates the sum of plane waves (sinusoidal signals) over a
-        given frequency spectrum """
+def sin_sum(z, t, nu_center=1, nu_min=0.001, N_frequencies=4000, spec_width=200, 
+            k_i=[1, 5, 0], plotting=False, figuresize=(11, 4)):
+    """Calculates the sum of plane waves (sinusoidal signals) over a
+       given frequency spectrum 
+
+    Parameters
+    ----------
+    z : array_like
+        Array of the z-axis your wave packet is propagating on.
+    t : float
+        Time at which you want to calculate the current spatial form of the 
+        wave (snapshot along the z-axis at that point in time).
+    nu_center : float, optional
+        Center frequency of the frequency spectrum you are using in the 
+        simulation. Default is 1.
+    nu_min : float, optional
+        Minimal frequency that is included in the spectrum. By default the 
+        spectrum from nu_min to 2*nu_center is considered. Therefore, if you
+        are using a very low nu_center, you may have to adjust nu_min as well.
+        Default is 0.001.
+    N_frequencies : int, optional
+        Number of frequencies (spectral components) included in the sum. The
+        final spectrum is a numpy.linspace(nu_min, 2 * nu_center). The default
+        value for N_frequencies is 4000.
+    k_i : list of floats, optional
+        List that contains the values you want to use for the 
+        frequency-dependent wave vector k. Default is [1, 5, 0]. 
+    plotting : bool, optional
+        Bool to turn on the plotting, which will plot some spectral components,
+        the resulting total wave (the wave packet) and the underlying spectrum.
+        Default is False.
+    figuresize : tuple of ints, optional
+        Size of the figure when plotting the wave. Default is (11, 4).
+    spec_width : int, optional
+        Width of the spectrum. The spectrum is a gaussian signal obtained from 
+        scipy. The variable spec_width is not exactly the spectral width Δν.
+        Instead, a gaussian along the range (0, N_frequencies) is generated
+        with standard deviation spec_width. So if you want e.g. a very sharp
+        peak at nu_center with N_frequencies=4000, choose e.g. spec_width=100.
+        Default is 100.
+
+    Returns
+    -------
+    E : array
+        E-field amplitude along the z-axis at time t.
+
+    """  
 
     # create array of frequency spectrum and the corresponding weight 
     # i.e. how much the given frequency contributes
     frequencies = np.linspace(nu_min, nu_center * 2, N_frequencies)
-    spectrum = signal.gaussian(len(frequencies), std=spec_width) / 1000 * 4
+    spectrum = signal.gaussian(len(frequencies), std=spec_width)
 
     # create array for spectral components
     E_nu = np.zeros([len(frequencies), len(z)])
@@ -108,9 +167,68 @@ def sin_sum(z, t, nu_center=1, nu_min=0.001, N_frequencies=4000,
     return E
 
 
-def animate(z, pulses, ms_between_frames=30, dot_size=0, steps_per_frame=1,
-            figuresize=(7, 4)):
-    """ method to animate the time evolution of the wave packet """
+def calc_pulses(z, t_start, t_end, n_steps, nu_center=1, k_i=[1, 5, 0],
+                spec_width=100):
+    """Calculates the spatial form of the pulse at different times 
+
+    Parameters
+    ----------
+    z : array_like
+        Array of the z-axis your wave packet is propagating on.
+    t_start : float
+        Start time of the propagation.
+    t_end : float
+        End time of the propagation.
+    n_steps : int
+        Number of time steps you want to animate.
+    nu_center : float, optional
+        Center frequency of the frequency spectrum you are using in the 
+        simulation. Default is 1.
+    k_i : list of floats, optional
+        List that contains the values you want to use for the 
+        frequency-dependent wave vector k. Default is [1, 5, 0]. 
+    spec_width : int, optional
+        Width of the spectrum. The spectrum is a gaussian signal obtained from 
+        scipy. The variable spec_width is not exactly the spectral width Δν.
+        Instead, a gaussian along the range (0, N_frequencies) is generated
+        with standard deviation spec_width. So if you want e.g. a very sharp
+        peak at nu_center with N_frequencies=4000, choose e.g. spec_width=100.
+        Default is 100.
+
+    Returns
+    -------
+    pulses : array
+        Array of shape (n_steps, len(z)), which contains the electric field of
+        the wave at all time steps.
+
+    """
+
+    times = np.linspace(t_start, t_end, n_steps)
+    pulses = np.zeros([n_steps, len(z)])
+    for i in tqdm(range(len(times))):
+        pulses[i, :] = sin_sum(z, times[i], nu_center=nu_center, k_i=k_i,
+                               spec_width=spec_width)
+
+    return pulses
+
+
+def animate(z, pulses, ms_between_frames=30, figuresize=(11, 4)):
+    """Animates the time evolution of the wave packet 
+
+    Parameters
+    ----------
+    z : array_like
+        Array of the z-axis your wave packet is propagating on.
+    pulses : array
+        Array of shape (n_steps, len(z)), which contains the electric field of
+        the wave at all time steps.
+    ms_between_frames : int, optional
+        Milliseconds of pause between two frames in the animation. Default 
+        is 30.
+    figuresize : tuple of ints, optional
+        Size of the figure when plotting the wave. Default is (11, 4).
+
+    """
 
     fig, ax = plt.subplots(figsize=figuresize)
 
@@ -142,23 +260,49 @@ def animate(z, pulses, ms_between_frames=30, dot_size=0, steps_per_frame=1,
     return HTML(anim.to_html5_video())
 
 
-def calc_pulses(z, t_start, t_end, n_steps, nu_center=3, k_i=[1, 3, 0],
-                spec_width=30):
-    """ calculate the spatial form of the pulse at different times """
+def plot_pulses(z, times, nu_center=0.5, k_i=[1, 10, 0], spec_width=400, 
+                no_axes=False, plotname="", dpi=100, figuresize=(11, 4), 
+                z_arrow=False, colors=["steelblue" for i in range(10)]):
+    """Plots the pulse at different times 
 
-    times = np.linspace(t_start, t_end, n_steps)
-    pulses = np.zeros([n_steps, len(z)])
-    for i in tqdm(range(len(times))):
-        pulses[i, :] = sin_sum(z, times[i], nu_center=nu_center, k_i=k_i,
-                               spec_width=spec_width)
+    Parameters
+    ----------
+    z : array_like
+        Array of the z-axis your wave packet is propagating on.
+    times : array_like
+        Array of the points in time you want to plot.
+    nu_center : float, optional
+        Center frequency of the frequency spectrum you are using in the 
+        simulation. Default is 1.
+    k_i : list of floats, optional
+        List that contains the values you want to use for the 
+        frequency-dependent wave vector k. Default is [1, 5, 0]. 
+    spec_width : int, optional
+        Width of the spectrum. The spectrum is a gaussian signal obtained from 
+        scipy. The variable spec_width is not exactly the spectral width Δν.
+        Instead, a gaussian along the range (0, N_frequencies) is generated
+        with standard deviation spec_width. So if you want e.g. a very sharp
+        peak at nu_center with N_frequencies=4000, choose e.g. spec_width=100.
+        Default is 100.
+    no_axes : bool, optional
+        Option to turn of the plotting of the axes. Default is False.
+    plotname : str, optional
+        Path of the plot, except for the ".pdf", in case you want to save the 
+        plot. If more than one time step is to be plotted, the for each time 
+        step a plot is produced, containing the previous timesteps and the 
+        current one. Default is "", corresponding to not saving the plot.
+    dpi : int, optional
+        Number of DPI in the plots. Default is 100.
+    figuresize : tuple of ints, optional
+        Size of the figure when plotting the wave. Default is (11, 4).
+    z_arrow : bool, optional
+        Option to plot a arrow with the label 'position z' along the direction
+        of propagation. Default is False.
+    colors : list of str, optional
+        The colors you want to use for the different time steps. By default all
+        time steps are plotted with the standard python 'steelblue'.
 
-    return pulses
-
-
-def plot_pulses(z, times, nu_center=0.5, k_i=[1, 10, 0], no_axes=False, 
-                plotname="", dpi=100, figuresize=(11, 4), z_arrow=False,
-                colors=["steelblue" for i in range(10)], spec_width=400):
-    """ plots the pulse at different times """
+    """
 
     pulses = [sin_sum(z, t, nu_center=nu_center, k_i=k_i, spec_width=spec_width) for t in times]
 
@@ -192,8 +336,5 @@ def plot_pulses(z, times, nu_center=0.5, k_i=[1, 10, 0], no_axes=False,
             else:
                 fig.savefig(plotname+".pdf")
     plt.show()
-
-
-
 
 

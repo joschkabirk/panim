@@ -10,7 +10,7 @@ from tqdm import tqdm
 c = 1
 
 
-def k(nu, k0=1, k1=0, k2=0):
+def k(nu, nu_center, k0=1, k1=0, k2=0):
     """Calculates the wave vector k as a function of the frequency nu 
 
     Parameters
@@ -30,12 +30,13 @@ def k(nu, k0=1, k1=0, k2=0):
     """
 
     omega = 2 * np.pi * nu
+    omega_0 = 2 * np.pi * nu_center
 
-    return k0 + k1 * omega + k2 * omega**2
+    return k0 + k1 * (omega - omega_0) + k2 * (omega - omega_0)**2
 
 
 def sin_sum(z, t, nu_center=1, nu_min=0.001, N_frequencies=4000, spec_width=200, 
-            k_i=[1, 5, 0], plotting=False, figuresize=(11, 4)):
+            k_i=[1, 5, 0], plotting=False, z_arrow=False, figuresize=(11, 4)):
     """Calculates the sum of plane waves (sinusoidal signals) over a
        given frequency spectrum 
 
@@ -58,15 +59,6 @@ def sin_sum(z, t, nu_center=1, nu_min=0.001, N_frequencies=4000, spec_width=200,
         Number of frequencies (spectral components) included in the sum. The
         final spectrum is a numpy.linspace(nu_min, 2 * nu_center). The default
         value for N_frequencies is 4000.
-    k_i : list of floats, optional
-        List that contains the values you want to use for the 
-        frequency-dependent wave vector k. Default is [1, 5, 0]. 
-    plotting : bool, optional
-        Bool to turn on the plotting, which will plot some spectral components,
-        the resulting total wave (the wave packet) and the underlying spectrum.
-        Default is False.
-    figuresize : tuple of ints, optional
-        Size of the figure when plotting the wave. Default is (11, 4).
     spec_width : int, optional
         Width of the spectrum. The spectrum is a gaussian signal obtained from 
         scipy. The variable spec_width is not exactly the spectral width Δν.
@@ -74,6 +66,18 @@ def sin_sum(z, t, nu_center=1, nu_min=0.001, N_frequencies=4000, spec_width=200,
         with standard deviation spec_width. So if you want e.g. a very sharp
         peak at nu_center with N_frequencies=4000, choose e.g. spec_width=100.
         Default is 100.
+    k_i : list of floats, optional
+        List that contains the values you want to use for the 
+        frequency-dependent wave vector k. Default is [1, 5, 0]. 
+    plotting : bool, optional
+        Bool to turn on the plotting, which will plot some spectral components,
+        the resulting total wave (the wave packet) and the underlying spectrum.
+        Default is False.
+    z_arrow : bool, optional
+        Option to plot a arrow with the label 'position z' along the direction
+        of propagation. Default is False.
+    figuresize : tuple of ints, optional
+        Size of the figure when plotting the wave. Default is (11, 4).
 
     Returns
     -------
@@ -106,7 +110,7 @@ def sin_sum(z, t, nu_center=1, nu_min=0.001, N_frequencies=4000, spec_width=200,
     # now loop over all frequencies and calculate the corresponding spectral
     # component
     for i in range(len(frequencies)):
-        phi_nu = k(frequencies[i], *k_i) * z
+        phi_nu = k(frequencies[i], nu_center, *k_i) * z
         E_nu[i, :] = spectrum[i] * np.sin(2 * np.pi * frequencies[i] * t - phi_nu)
 
         if plotting:
@@ -120,19 +124,9 @@ def sin_sum(z, t, nu_center=1, nu_min=0.001, N_frequencies=4000, spec_width=200,
     # the resulting pulse (sum of the spectral components) and the underlying
     # spectrum
     if plotting:
-        ymin = E_nu.min() * 2
-        ymax = E_nu.max() * 1.5
+        ymin = E_nu.min() * 1.1
+        ymax = E_nu.max() * 1.1
         ax.set_ylim(ymin, ymax)
-        delta_z = z.max() - z.min()
-        arrow_coord = (z.mean() - 0.1 * delta_z, z.mean() + 0.1 * delta_z,
-                       ymin, ymin)
-        text_coord  = [z.mean() - 0.03 * delta_z, z.mean(), 
-                       0.9 * ymin, 0.9 * ymin]
-        ax.annotate("", xytext=(arrow_coord[0], arrow_coord[2]), 
-                    xy=(arrow_coord[1], arrow_coord[3]),
-                    arrowprops=dict(arrowstyle='->'))
-        ax.annotate("position $z$", xytext=(text_coord[0], text_coord[2]), 
-                    xy=(text_coord[1], text_coord[3]))
         print("plotted", n_plotted, "frequencies")
         plt.show()
         fig.savefig("plots/spectral_components.pdf")
@@ -144,16 +138,6 @@ def sin_sum(z, t, nu_center=1, nu_min=0.001, N_frequencies=4000, spec_width=200,
         ymin = E.min() * 2
         ymax = E.max()
         ax.set_ylim(ymin, ymax)
-        delta_z = z.max() - z.min()
-        arrow_coord = (z.mean() - 0.1 * delta_z, z.mean() + 0.1 * delta_z,
-                       ymin, ymin)
-        text_coord  = [z.mean() - 0.03 * delta_z, z.mean(), 
-                       0.9 * ymin, 0.9 * ymin]
-        ax.annotate("", xytext=(arrow_coord[0], arrow_coord[2]), 
-                    xy=(arrow_coord[1], arrow_coord[3]),
-                    arrowprops=dict(arrowstyle='->'))
-        ax.annotate("position $z$", xytext=(text_coord[0], text_coord[2]), 
-                    xy=(text_coord[1], text_coord[3]))
         ax.plot(z, E)
         fig.savefig("plots/resulting_pulse.pdf")
 
@@ -309,8 +293,8 @@ def plot_pulses(z, times, nu_center=0.5, k_i=[1, 10, 0], spec_width=400,
     fig, ax = plt.subplots(figsize=figuresize, dpi=dpi, frameon=False)
 
     ax.set_xlim(z.min(), z.max())
-    ymax = pulses[0].max()
-    ymin = pulses[0].min()
+    ymax = pulses[0].max() * 1.1
+    ymin = pulses[0].min() * 1.1
     if z_arrow:
         ymin *= 2
     ax.set_ylim(ymin, ymax)

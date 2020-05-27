@@ -10,25 +10,26 @@ from tqdm import tqdm
 c = 1
 
 
-def n(nu, n0=1, n1=5, n2=0):
-    """ calculates the index of refraction as a function of the 
-        frequency nu """
+def k(nu, k0=1, k1=0, k2=0):
+    """ calculates the wave vector k as a function of the frequency nu """
 
-    return n0 + n1 * nu + n2 * nu**2
+    omega = 2 * np.pi * nu
+
+    return k0 + k1 * omega + k2 * omega**2
 
 
-def sin_sum(z_array, t, nu_max=1, nu_min=0.001, N_frequencies=4000, 
-            n_i=[1, 5, 0], plotting=False):
+def sin_sum(z, t, nu_center=1, nu_min=0.001, N_frequencies=4000, 
+            k_i=[1, 5, 0], plotting=False, figuresize=(11, 4), spec_width=200):
     """ calculates the sum of plane waves (sinusoidal signals) over a
         given frequency spectrum """
 
     # create array of frequency spectrum and the corresponding weight 
     # i.e. how much the given frequency contributes
-    frequencies = np.linspace(nu_min, nu_max, N_frequencies)
-    spectrum = signal.gaussian(len(frequencies), std=N_frequencies/40) / 1000 * 4
+    frequencies = np.linspace(nu_min, nu_center * 2, N_frequencies)
+    spectrum = signal.gaussian(len(frequencies), std=spec_width) / 1000 * 4
 
     # create array for spectral components
-    E_nu = np.zeros([len(frequencies), len(z_array)])
+    E_nu = np.zeros([len(frequencies), len(z)])
 
     n_plotted = 0
     N_spec_plot_tot = 20
@@ -39,19 +40,19 @@ def sin_sum(z_array, t, nu_max=1, nu_min=0.001, N_frequencies=4000,
     # colors = cm.rainbow(np.linspace(0, 1, N_spec_plot_tot))
 
     if plotting:
-        fig, ax = plt.subplots(figsize=(11, 4), frameon=False)
-        ax.set_xlim(z_array.min(), z_array.max())
+        fig, ax = plt.subplots(figsize=figuresize, frameon=False)
+        ax.set_xlim(z.min(), z.max())
         plt.axis('off')
 
     # now loop over all frequencies and calculate the corresponding spectral
     # component
     for i in range(len(frequencies)):
-        phi_nu = 2 * np.pi / c  * frequencies[i] * n(frequencies[i], n_i[0], n_i[1], n_i[2]) * z_array
+        phi_nu = k(frequencies[i], *k_i) * z
         E_nu[i, :] = spectrum[i] * np.sin(2 * np.pi * frequencies[i] * t - phi_nu)
 
         if plotting:
             if frequencies[i] in plotting_frequencies:
-                ax.plot(z_array, E_nu[i], label=frequencies[i])  # , color=colors[n_plotted])
+                ax.plot(z, E_nu[i], label=frequencies[i])  # , color=colors[n_plotted])
                 n_plotted += 1
 
     E = E_nu.sum(axis=0)
@@ -60,14 +61,41 @@ def sin_sum(z_array, t, nu_max=1, nu_min=0.001, N_frequencies=4000,
     # the resulting pulse (sum of the spectral components) and the underlying
     # spectrum
     if plotting:
+        ymin = E_nu.min() * 2
+        ymax = E_nu.max() * 1.5
+        ax.set_ylim(ymin, ymax)
+        delta_z = z.max() - z.min()
+        arrow_coord = (z.mean() - 0.1 * delta_z, z.mean() + 0.1 * delta_z,
+                       ymin, ymin)
+        text_coord  = [z.mean() - 0.03 * delta_z, z.mean(), 
+                       0.9 * ymin, 0.9 * ymin]
+        ax.annotate("", xytext=(arrow_coord[0], arrow_coord[2]), 
+                    xy=(arrow_coord[1], arrow_coord[3]),
+                    arrowprops=dict(arrowstyle='->'))
+        ax.annotate("position $z$", xytext=(text_coord[0], text_coord[2]), 
+                    xy=(text_coord[1], text_coord[3]))
         print("plotted", n_plotted, "frequencies")
+        plt.show()
         fig.savefig("plots/spectral_components.pdf")
 
         # now plot the resulting pulse
-        fig, ax = plt.subplots(figsize=(11, 4), frameon=False)
-        ax.set_xlim(z_array.min(), z_array.max())
+        fig, ax = plt.subplots(figsize=figuresize, frameon=False)
+        ax.set_xlim(z.min(), z.max())
         plt.axis('off')
-        ax.plot(z_array, E)
+        ymin = E.min() * 2
+        ymax = E.max()
+        ax.set_ylim(ymin, ymax)
+        delta_z = z.max() - z.min()
+        arrow_coord = (z.mean() - 0.1 * delta_z, z.mean() + 0.1 * delta_z,
+                       ymin, ymin)
+        text_coord  = [z.mean() - 0.03 * delta_z, z.mean(), 
+                       0.9 * ymin, 0.9 * ymin]
+        ax.annotate("", xytext=(arrow_coord[0], arrow_coord[2]), 
+                    xy=(arrow_coord[1], arrow_coord[3]),
+                    arrowprops=dict(arrowstyle='->'))
+        ax.annotate("position $z$", xytext=(text_coord[0], text_coord[2]), 
+                    xy=(text_coord[1], text_coord[3]))
+        ax.plot(z, E)
         fig.savefig("plots/resulting_pulse.pdf")
 
         # also plot the spectrum
@@ -80,13 +108,14 @@ def sin_sum(z_array, t, nu_max=1, nu_min=0.001, N_frequencies=4000,
     return E
 
 
-def animate(z, pulses, ms_between_frames=30, dot_size=0, steps_per_frame=1):
-    """ method to animate the particle movement """
+def animate(z, pulses, ms_between_frames=30, dot_size=0, steps_per_frame=1,
+            figuresize=(7, 4)):
+    """ method to animate the time evolution of the wave packet """
 
-    fig, ax = plt.subplots(figsize=(7, 4))
+    fig, ax = plt.subplots(figsize=figuresize)
 
-    ax.set_xlim(0, z.max())
-    ax.set_ylim(-1, 1)
+    ax.set_xlim(z.min(), z.max())
+    ax.set_ylim(1.2 * pulses.min(), 1.2 * pulses.max())
 
     ax.set_xlabel(r"position $z$")
 
@@ -113,43 +142,55 @@ def animate(z, pulses, ms_between_frames=30, dot_size=0, steps_per_frame=1):
     return HTML(anim.to_html5_video())
 
 
-def calc_pulses(z, t_start, t_end, n_steps, nu_max=3, n_i=[1, 3, 0]):
+def calc_pulses(z, t_start, t_end, n_steps, nu_center=3, k_i=[1, 3, 0],
+                spec_width=30):
     """ calculate the spatial form of the pulse at different times """
 
     times = np.linspace(t_start, t_end, n_steps)
     pulses = np.zeros([n_steps, len(z)])
     for i in tqdm(range(len(times))):
-        pulses[i, :] = sin_sum(z, times[i], nu_max=nu_max, n_i=n_i)
+        pulses[i, :] = sin_sum(z, times[i], nu_center=nu_center, k_i=k_i,
+                               spec_width=spec_width)
 
     return pulses
 
 
-def plot_pulses(z, times, nu_max=0.5, n_i=[1, 10, 0], no_axes=False, plotname=""):
+def plot_pulses(z, times, nu_center=0.5, k_i=[1, 10, 0], no_axes=False, 
+                plotname="", dpi=100, figuresize=(11, 4), z_arrow=False,
+                colors=["steelblue" for i in range(10)], spec_width=400):
     """ plots the pulse at different times """
 
-    pulses = [sin_sum(z, t, nu_max=nu_max, n_i=n_i) for t in times]
+    pulses = [sin_sum(z, t, nu_center=nu_center, k_i=k_i, spec_width=spec_width) for t in times]
 
-    fig, ax = plt.subplots(figsize=(11, 4), frameon=False)
+    fig, ax = plt.subplots(figsize=figuresize, dpi=dpi, frameon=False)
 
     ax.set_xlim(z.min(), z.max())
-    ax.set_ylim(pulses[0].min()*1.2, pulses[0].max())
+    ymax = pulses[0].max()
+    ymin = pulses[0].min()
+    if z_arrow:
+        ymin *= 2
+    ax.set_ylim(ymin, ymax)
 
     if no_axes:
         # remove axes and draw arrow in z-direction
         plt.axis('off')
-        arrow_coord = (z.mean() - 0.2 * z.mean(), z.mean() + 0.2 * z.mean(), 
-                       1.2 * pulses[0].min(), 1.2 * pulses[0].min())
-        text_coord  = [z.mean() - 0.1 * z.mean(), z.mean(), 
-                       1.1 * pulses[0].min(), 1.1 * pulses[0].min()]
-        ax.annotate("", xytext=(arrow_coord[0], arrow_coord[2]), 
-                    xy=(arrow_coord[1], arrow_coord[3]),
-                    arrowprops=dict(arrowstyle='->'))
-        ax.annotate("position $z$", xytext=(text_coord[0], text_coord[2]), 
-                    xy=(text_coord[1], text_coord[3]))
+        if z_arrow:
+            arrow_coord = (z.mean() - 0.2 * z.mean(), z.mean() + 0.2 * z.mean(), 
+                           ymin, ymin)
+            text_coord  = [z.mean() - 0.1 * z.mean(), z.mean(), 
+                           0.9 * ymin, 0.9 * ymin]
+            ax.annotate("", xytext=(arrow_coord[0], arrow_coord[2]), 
+                        xy=(arrow_coord[1], arrow_coord[3]),
+                        arrowprops=dict(arrowstyle='->'))
+            ax.annotate("position $z$", xytext=(text_coord[0], text_coord[2]), 
+                        xy=(text_coord[1], text_coord[3]))
     for i in range(len(pulses)):
-        ax.plot(z, pulses[i])
+        ax.plot(z, pulses[i], color=colors[i])
         if plotname != "":
-            fig.savefig(plotname+"_"+str(i+1)+".pdf")
+            if len(pulses) > 1:
+                fig.savefig(plotname+"_"+str(i+1)+".pdf")
+            else:
+                fig.savefig(plotname+".pdf")
     plt.show()
 
 

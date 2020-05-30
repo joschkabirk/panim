@@ -5,12 +5,13 @@ from matplotlib import animation
 # import scipy.constants as con
 from IPython.display import HTML
 from tqdm import tqdm
+import os
 # import matplotlib.cm as cm
 
 c = 1
 
 
-def k(nu, nu_center, k0=1, k1=0, k2=0):
+def k(nu, nu_center, k0=1, k1=0, k2=0, k3=0):
     """Calculates the wave vector k as a function of the frequency nu 
 
     Parameters
@@ -32,11 +33,12 @@ def k(nu, nu_center, k0=1, k1=0, k2=0):
     omega = 2 * np.pi * nu
     omega_0 = 2 * np.pi * nu_center
 
-    return k0 + k1 * (omega - omega_0) + k2 * (omega - omega_0)**2
+    return k0 + k1 * (omega - omega_0) + k2 * (omega - omega_0)**2 + k3 * (omega - omega_0)**3
 
 
 def sin_sum(z, t, nu_center=1, nu_min=0.001, N_frequencies=4000, spec_width=200, 
-            k_i=[1, 5, 0], plotting=False, z_arrow=False, figuresize=(11, 4)):
+            k_i=[1, 5, 0], plotting=False, z_arrow=False, figuresize=(11, 4),
+            savein=""):
     """Calculates the sum of plane waves (sinusoidal signals) over a
        given frequency spectrum 
 
@@ -78,6 +80,8 @@ def sin_sum(z, t, nu_center=1, nu_min=0.001, N_frequencies=4000, spec_width=200,
         of propagation. Default is False.
     figuresize : tuple of ints, optional
         Size of the figure when plotting the wave. Default is (11, 4).
+    savein : string, optional
+        Directory where you want to save the plots.
 
     Returns
     -------
@@ -124,12 +128,15 @@ def sin_sum(z, t, nu_center=1, nu_min=0.001, N_frequencies=4000, spec_width=200,
     # the resulting pulse (sum of the spectral components) and the underlying
     # spectrum
     if plotting:
+        if savein != "":
+            os.system("mkdir -p "+savein)
         ymin = E_nu.min() * 1.1
         ymax = E_nu.max() * 1.1
         ax.set_ylim(ymin, ymax)
         print("plotted", n_plotted, "frequencies")
         plt.show()
-        fig.savefig("plots/spectral_components.pdf")
+        if savein != "":
+            fig.savefig(savein+"/spectral_components.pdf")
 
         # now plot the resulting pulse
         fig, ax = plt.subplots(figsize=figuresize, frameon=False)
@@ -139,14 +146,16 @@ def sin_sum(z, t, nu_center=1, nu_min=0.001, N_frequencies=4000, spec_width=200,
         ymax = E.max()
         ax.set_ylim(ymin, ymax)
         ax.plot(z, E)
-        fig.savefig("plots/resulting_pulse.pdf")
+        if savein != "":
+            fig.savefig(savein+"/resulting_pulse.pdf")
 
         # also plot the spectrum
         fig, ax = plt.subplots(figsize=(6, 4), frameon=False)
         ax.plot(frequencies, spectrum)
         ax.set_xlabel(r"Frequency $\nu$")
         ax.set_ylabel(r"Spectral amplitude $S(\nu)$")
-        fig.savefig("plots/spectrum.pdf")
+        if savein != "":
+            fig.savefig(savein+"/spectrum.pdf")
 
     return E
 
@@ -196,7 +205,7 @@ def calc_pulses(z, t_start, t_end, n_steps, nu_center=1, k_i=[1, 5, 0],
     return pulses
 
 
-def animate(z, pulses, ms_between_frames=30, figuresize=(11, 4)):
+def animate(z, pulses, ms_between_frames=30, figuresize=(11, 4), saveas=""):
     """Animates the time evolution of the wave packet 
 
     Parameters
@@ -211,6 +220,8 @@ def animate(z, pulses, ms_between_frames=30, figuresize=(11, 4)):
         is 30.
     figuresize : tuple of ints, optional
         Size of the figure when plotting the wave. Default is (11, 4).
+    saveas : string, optional
+        Path where you want to save the animation as .gif-file.
 
     """
 
@@ -238,9 +249,9 @@ def animate(z, pulses, ms_between_frames=30, figuresize=(11, 4)):
     anim = animation.FuncAnimation(fig, animate, init_func=init, blit=True,
                                    frames=len(pulses), 
                                    interval=ms_between_frames)
-    # Writer = animation.writers['ffmpeg']
-    # writer = Writer(fps=15, metadata=dict(artist='Me'), bitrate=1800)
-    # anim.save("animation.mp4", writer=writer)
+    if saveas != "":
+        anim.save(saveas, writer='imagemagick', fps=int(1000/ms_between_frames))
+
     return HTML(anim.to_html5_video())
 
 

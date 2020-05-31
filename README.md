@@ -15,11 +15,29 @@ frequency `k(ν)`.
 This allows to visualise different effects that occur when
 propagating the pulse along a z-axis.
 
+## Phase velocity and group velocity
+
+If the refractive index is the same for all frequencies, then the wave vector
+`k(ν)` has to fulfill the equations
+
+    k(ν0) = k'(ν0) * ν0 ,  k'(ν0) = n / c_0
+
+where `n` is the refractive index and `c_0` the speed of light in vacuum. The
+resulting propagation looks like this
+
+![](animations/group_equal_phase.gif)
+
+which means that phase velocity and group velocity are the same here.
+
+
 ## Group delay
 
-One example is the group delay, which means that the first derivative `k'(ν0)`
-is non-zero. Assuming that all higher order derivatives vanish, the resulting
-propagation look like this:
+Group delay in general is the derivative `dφ/dω`, which means that the first 
+derivative `k'(ν0)` is non-zero. This was also the case in the above animation,
+but if `k(ν0)` and `k'(ν0)` do not fulfill the conditions as in the above 
+example, the phase velocity and the group velocity differ.
+Assuming that all higher order derivatives vanish, the resulting
+propagation looks like this:
 
 ![](animations/group_delay.gif)
 

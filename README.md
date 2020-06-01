@@ -15,6 +15,11 @@ frequency `k(ν)`.
 
     k(ν) = k(ν0) + k'(ν0) * (ν - ν0) + 1 / 2 * k''(ν0) * (ν - ν0) **2 + ...
 
+The function is constructed as the Taylor expansion around the center
+frequency `ν0`.
+
+![](plots/what_it_does.png)
+
 This allows to visualise different effects that occur when
 propagating the pulse along a z-axis.
 

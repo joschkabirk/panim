@@ -68,5 +68,10 @@ of the pulse along the z-axis, while the lower animation shows the electric
 field of the pulse at the position which is marked in the upper animation with
 the vertical line as a function of time.
 
+In the time domain (at a fixed position), the pulse still has a gaussian shape, 
+since only the spectral phases are changed, but not the amplitudes, which means
+that the spectral distribution is still a gaussian, and therefore also the
+pulse in time is a gaussian.
+
 ![](animations/spatial_vs_time.gif)
 

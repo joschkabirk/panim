@@ -255,6 +255,77 @@ def animate(z, pulses, ms_between_frames=30, figuresize=(11, 4), saveas=""):
     return HTML(anim.to_html5_video())
 
 
+def animate_with_time(z, pulses, ms_between_frames=30, figuresize=(11, 4), 
+                      saveas="", fixed_z_i=0):
+    """Animates the time evolution of the wave packet 
+
+    Parameters
+    ----------
+    z : array_like
+        Array of the z-axis your wave packet is propagating on.
+    pulses : array
+        Array of shape (n_steps, len(z)), which contains the electric field of
+        the wave at all time steps.
+    ms_between_frames : int, optional
+        Milliseconds of pause between two frames in the animation. Default 
+        is 30.
+    figuresize : tuple of ints, optional
+        Size of the figure when plotting the wave. Default is (11, 4).
+    saveas : string, optional
+        Path where you want to save the animation as .gif-file.
+    fixed_z_i : int, optional
+        The index i of the value z_i in the array `z` that you want to use
+        for the animation of the time evolution at that point on the z-axis.
+
+    """
+    E_t = pulses[:, fixed_z_i]
+    plt.plot(E_t)
+    plt.show()
+
+    fig, axs = plt.subplots(2, 1, figsize=figuresize)
+    axs.flatten()
+
+    axs[0].set_xlim(z.min(), z.max())
+    axs[1].set_xlim(0, len(pulses))
+    axs[0].set_ylim(1.2 * pulses.min(), 1.2 * pulses.max())
+    axs[1].set_ylim(1.2 * pulses.min(), 1.2 * pulses.max())
+
+    axs[0].set_xlabel(r"Position $z$")
+    axs[1].set_xlabel(r"Time $t$")
+
+    lines_spatial = [axs[0].plot([], [], color="forestgreen")[0]
+                     for i in pulses]
+    lines_time = [axs[1].plot([], [], color="forestgreen")[0]
+                  for i in pulses]
+
+    axs[0].axvline(z[fixed_z_i])
+    fig.tight_layout()
+
+    def init():
+        for line in lines_spatial:
+            line.set_data([], [])
+        for line in lines_time:
+            line.set_data([], [])
+        return [lines_spatial, lines_time]
+
+    def animate(i):
+        for j in range(len(lines_spatial)):
+            lines_spatial[j].set_data(z, pulses[i, :])
+        for j in range(len(lines_spatial)):
+            lines_time[j].set_data(range(0, i), pulses[0:i, fixed_z_i])
+        return [lines_spatial, lines_time]
+
+    plt.close()
+    anim = animation.FuncAnimation(fig, animate, init_func=init, blit=False,
+                                   frames=len(pulses), 
+                                   interval=ms_between_frames)
+    plt.close()
+    if saveas != "":
+        anim.save(saveas, writer='imagemagick', fps=int(1000/ms_between_frames))
+
+    return HTML(anim.to_html5_video())
+
+
 def plot_pulses(z, times, nu_center=0.5, k_i=[1, 10, 0], spec_width=400, 
                 no_axes=False, plotname="", dpi=100, figuresize=(11, 4), 
                 z_arrow=False, colors=["steelblue" for i in range(10)]):

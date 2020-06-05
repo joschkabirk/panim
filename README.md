@@ -52,8 +52,21 @@ propagation looks like this:
 
 ## Group velocity dispersion
 
-If also the second derivative is non-zero, then group velocity dispersion
+If also the second derivative is non-zero, then group velocity dispersion (GVD)
 occurs, resulting in a linear frequency chirp of the pulse:
 
 ![](animations/group_velocity_dispersion.gif)
+
+
+## Spatial representation vs. time representation
+
+As can be seen in the animation above, when having GVD the pulse become 
+asymmetical along the z-axis. However, this is not the case when looking at the
+electric field at one fixed position as a function of time.
+This is shown in the animation below. The upper animation shows the propagation
+of the pulse along the z-axis, while the lower animation shows the electric
+field of the pulse at the position which is marked in the upper animation with
+the vertical line as a function of time.
+
+![](animations/spatial_vs_time.gif)
 

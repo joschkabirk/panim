@@ -1,5 +1,17 @@
+import numpy as np
+import matplotlib.pyplot as plt
+# from scipy import signal
+from matplotlib import animation
+# import scipy.constants as con
+from IPython.display import HTML
+from tqdm import tqdm
+# import matplotlib.cm as cm
+
+c = 1
+
+
 def resonator_modes(t, z, n_modes=3, random_phases=False, plot=True, 
-                    figuresize=(10, 4), spectrum_std=1000):
+                    figuresize=(10, 4), spectrum_std=1000, save_in=""):
 
     # length of the resonator
     L = z.max() - z.min()
@@ -12,7 +24,8 @@ def resonator_modes(t, z, n_modes=3, random_phases=False, plot=True,
     if random_phases is True:
         phases = np.random.uniform(0, 200, n_modes)
 
-    spectrum = signal.gaussian(n_modes, std=spectrum_std)
+    # spectrum = signal.gaussian(n_modes, std=spectrum_std)
+    spectrum = np.ones(n_modes)
 
     if plot is True:
         fig, axs = plt.subplots(2, 1, figsize=figuresize, dpi=100, frameon=False)
@@ -30,8 +43,19 @@ def resonator_modes(t, z, n_modes=3, random_phases=False, plot=True,
         omega = 2 * np.pi * frequencies[i]
         k = omega / c
         E_i[i, :] = spectrum[i] * np.sin(2 * omega * t - phases[i]) * np.sin(k * z)
+
         if plot is True:
+            fig_2, ax2 = plt.subplots(figsize=(10, 2), dpi=100, frameon=False)
+            ax2.set_ylim(-1.1, 1.1)
+            ax2.axis('off')
+            ax2.plot(z, E_i[i])
             axs[0].plot(z, E_i[i], label=str(i))
+
+            if save_in != "":
+                fig_2.savefig(save_in+"_mode_"+str(i)+".pdf")
+                plt.close()
+            else:
+                pass
 
     if plot is True:
         E_total = np.sum(E_i, axis=0)
@@ -39,6 +63,16 @@ def resonator_modes(t, z, n_modes=3, random_phases=False, plot=True,
         axs[1].set_ylim(- 1.2 * maximum, 1.2 * maximum)
         # axs[0].legend()
         axs[1].plot(z, E_total)
+
+        fig_3, ax3 = plt.subplots(figsize=(10, 2), dpi=100, frameon=False)
+        ax3.axis('off')
+        ax3.plot(z, E_total)
+        if save_in != "":
+            fig.savefig(save_in+"_both.pdf")
+            fig_3.savefig(save_in+"_sum.pdf")
+            plt.close()
+        else:
+            pass
 
     return E_i
 

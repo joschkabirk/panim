@@ -256,7 +256,7 @@ def animate(z, pulses, ms_between_frames=30, figuresize=(11, 4), saveas=""):
 
 
 def animate_with_time(z, pulses, ms_between_frames=30, figuresize=(11, 4), 
-                      saveas="", fixed_z_i=0):
+                      saveas="", fixed_z_1=0, fixed_z_2=1, z_offset=0):
     """Animates the time evolution of the wave packet 
 
     Parameters
@@ -278,42 +278,60 @@ def animate_with_time(z, pulses, ms_between_frames=30, figuresize=(11, 4),
         for the animation of the time evolution at that point on the z-axis.
 
     """
-    E_t = pulses[:, fixed_z_i]
-    plt.plot(E_t)
-    plt.show()
+    # E_z1 = pulses[:, fixed_z_1]
+    # E_z2 = pulses[:, fixed_z_2]
+    # plt.plot(E_t)
+    # plt.show()
 
-    fig, axs = plt.subplots(2, 1, figsize=figuresize)
+    fig, axs = plt.subplots(3, 1, figsize=figuresize)
     axs.flatten()
 
-    axs[0].set_xlim(z.min(), z.max())
+    axs[0].set_xlim(z.min()-z_offset, z.max()+z_offset)
     axs[1].set_xlim(0, len(pulses))
+    axs[2].set_xlim(0, len(pulses))
     axs[0].set_ylim(1.2 * pulses.min(), 1.2 * pulses.max())
     axs[1].set_ylim(1.2 * pulses.min(), 1.2 * pulses.max())
+    axs[2].set_ylim(1.2 * pulses.min(), 1.2 * pulses.max())
 
-    axs[0].set_xlabel(r"Position $z$")
-    axs[1].set_xlabel(r"Time $t$")
+    axs[0].set_xlabel(r"Position $z$ [a.u.]")
+    axs[1].set_xlabel(r"Time $t$ [a.u.]")
+    axs[2].set_xlabel(r"Time $t$ [a.u.]")
+    axs[0].set_ylabel(r"Electric field $E$ [a.u.]")
+    axs[1].set_ylabel(r"Electric field $E$ [a.u.]")
+    axs[2].set_ylabel(r"Electric field $E$ [a.u.]")
 
-    lines_spatial = [axs[0].plot([], [], color="forestgreen")[0]
+    axs[0].set_title(r"Electric field along the $z$-axis")
+    axs[1].set_title(r"Electric field at position $z_1$")
+    axs[2].set_title(r"Electric field at position $z_2$")
+
+    lines_spatial = [axs[0].plot([], [])[0]
                      for i in pulses]
-    lines_time = [axs[1].plot([], [], color="forestgreen")[0]
-                  for i in pulses]
+    lines_z1 = [axs[1].plot([], [], color="forestgreen")[0]
+                for i in pulses]
+    lines_z2 = [axs[2].plot([], [], color="darkred")[0]
+                for i in pulses]
 
-    axs[0].axvline(z[fixed_z_i])
+    axs[0].axvline(z[fixed_z_1], color="forestgreen")
+    axs[0].axvline(z[fixed_z_2], color="darkred")
     fig.tight_layout()
 
     def init():
         for line in lines_spatial:
             line.set_data([], [])
-        for line in lines_time:
+        for line in lines_z1:
             line.set_data([], [])
-        return [lines_spatial, lines_time]
+        for line in lines_z2:
+            line.set_data([], [])
+        return [lines_spatial, lines_z1, lines_z2]
 
     def animate(i):
         for j in range(len(lines_spatial)):
             lines_spatial[j].set_data(z, pulses[i, :])
         for j in range(len(lines_spatial)):
-            lines_time[j].set_data(range(0, i), pulses[0:i, fixed_z_i])
-        return [lines_spatial, lines_time]
+            lines_z1[j].set_data(range(0, i), pulses[0:i, fixed_z_1])
+        for j in range(len(lines_spatial)):
+            lines_z2[j].set_data(range(0, i), pulses[0:i, fixed_z_2])
+        return [lines_spatial, lines_z1, lines_z2]
 
     plt.close()
     anim = animation.FuncAnimation(fig, animate, init_func=init, blit=False,

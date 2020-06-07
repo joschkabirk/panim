@@ -333,13 +333,18 @@ def animate_with_time(z, pulses, ms_between_frames=30, figuresize=(11, 4),
             lines_z2[j].set_data(range(0, i), pulses[0:i, fixed_z_2])
         return [lines_spatial, lines_z1, lines_z2]
 
-    plt.close()
     anim = animation.FuncAnimation(fig, animate, init_func=init, blit=False,
                                    frames=len(pulses), 
                                    interval=ms_between_frames)
     plt.close()
+
     if saveas != "":
-        anim.save(saveas, writer='imagemagick', fps=int(1000/ms_between_frames))
+        if 'mp4' in saveas:
+            Writer = animation.writers['ffmpeg']
+            writer = Writer(fps=int(1000 / ms_between_frames), metadata=dict(artist='Me'), bitrate=1800)
+            anim.save(saveas, writer=writer)
+        else:
+            anim.save(saveas, writer='imagemagick', fps=int(1000/ms_between_frames))
 
     return HTML(anim.to_html5_video())
 

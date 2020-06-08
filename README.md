@@ -5,6 +5,8 @@ and the propagation of light pulses.
 The code uses a method that aims be a good approximation to the 
 Fourier transformation.
 
+![](animations/optical_fibre.gif)
+
 You start with defining a frequency spectrum of the pulse you want to visualise.
 Afterwards, the code constructs the spectral components of the pulse according
 to the frequency spectrum you defined. This means that the final pulse is the 

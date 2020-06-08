@@ -274,14 +274,13 @@ def animate_with_time(z, pulses, ms_between_frames=30, figuresize=(11, 4),
     saveas : string, optional
         Path where you want to save the animation as .gif-file.
     fixed_z_i : int, optional
-        The index i of the value z_i in the array `z` that you want to use
+        The index of the value z_i in the array `z` that you want to use
         for the animation of the time evolution at that point on the z-axis.
 
     """
-    # E_z1 = pulses[:, fixed_z_1]
-    # E_z2 = pulses[:, fixed_z_2]
-    # plt.plot(E_t)
-    # plt.show()
+
+    # normalise the pulses
+    pulses = pulses / pulses.max()
 
     fig, axs = plt.subplots(3, 1, figsize=figuresize)
     axs.flatten()
@@ -300,19 +299,20 @@ def animate_with_time(z, pulses, ms_between_frames=30, figuresize=(11, 4),
     axs[1].set_ylabel(r"Electric field $E$ [a.u.]")
     axs[2].set_ylabel(r"Electric field $E$ [a.u.]")
 
-    axs[0].set_title(r"Electric field along the $z$-axis")
+    axs[0].set_title(r"Pulse propagation along the $z$-axis")
     axs[1].set_title(r"Electric field at position $z_1$")
     axs[2].set_title(r"Electric field at position $z_2$")
 
-    lines_spatial = [axs[0].plot([], [])[0]
+    lines_spatial = [axs[0].plot([], [], color="tab:blue")[0]
                      for i in pulses]
     lines_z1 = [axs[1].plot([], [], color="forestgreen")[0]
                 for i in pulses]
     lines_z2 = [axs[2].plot([], [], color="darkred")[0]
                 for i in pulses]
 
-    axs[0].axvline(z[fixed_z_1], color="forestgreen")
-    axs[0].axvline(z[fixed_z_2], color="darkred")
+    axs[0].axvline(z[fixed_z_1], color="forestgreen", lw=5, label=r"$z_1$")
+    axs[0].axvline(z[fixed_z_2], color="darkred", lw=5, label=r"$z_2$")
+    axs[0].legend(loc="upper center", ncol=2)
     fig.tight_layout()
 
     def init():
@@ -336,17 +336,25 @@ def animate_with_time(z, pulses, ms_between_frames=30, figuresize=(11, 4),
     anim = animation.FuncAnimation(fig, animate, init_func=init, blit=False,
                                    frames=len(pulses), 
                                    interval=ms_between_frames)
+    print(">>> Finished animating")
     plt.close()
 
     if saveas != "":
+        Writer = animation.writers['ffmpeg']
+        writer = Writer(fps=int(1000 / ms_between_frames), metadata=dict(artist='Me'), bitrate=1800)
         if 'mp4' in saveas:
-            Writer = animation.writers['ffmpeg']
-            writer = Writer(fps=int(1000 / ms_between_frames), metadata=dict(artist='Me'), bitrate=1800)
+            print("Saving as .mp4")
             anim.save(saveas, writer=writer)
-        else:
+        elif '.gif' in saveas:
+            print("Saving as .gif")
             anim.save(saveas, writer='imagemagick', fps=int(1000/ms_between_frames))
-
-    return HTML(anim.to_html5_video())
+        else:
+            print("Saving as .mp4")
+            anim.save(saveas+".mp4", writer=writer)
+            print("Saving as .gif")
+            anim.save(saveas+".gif", writer='imagemagick', fps=int(1000/ms_between_frames))
+    else:
+        return HTML(anim.to_html5_video())
 
 
 def plot_pulses(z, times, nu_center=0.5, k_i=[1, 10, 0], spec_width=400, 

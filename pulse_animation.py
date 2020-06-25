@@ -22,6 +22,8 @@ def k(nu, nu_center, k0=1, k1=0, k2=0, k3=0):
         First order derivative dk/dω
     k2 : float, optional
         Second order derivative d^2k/dω^2
+    k3 : float, optional
+        Third order derivative d^3k/dω^3
 
     Returns
     -------
@@ -99,10 +101,13 @@ def sin_sum(z, t, nu_center=1, nu_min=0.001, N_frequencies=4000, spec_width=200,
     E_nu = np.zeros([len(frequencies), len(z)])
 
     n_plotted = 0
-    N_spec_plot_tot = 20
-    N_spec_plot_min = int(2 * N_frequencies/5)
-    N_spec_plot_max = int(3*N_frequencies/5)
-    spacing = int(len(frequencies[N_spec_plot_min:N_spec_plot_max]) / N_spec_plot_tot)
+    # N_spec_plot_tot = 20
+    # N_spec_plot_min = int(1 * N_frequencies / 5)
+    # N_spec_plot_max = int(4 * N_frequencies / 5)
+    N_spec_plot_min = int(1 * N_frequencies / 5)
+    N_spec_plot_max = int(4 * N_frequencies / 5)
+    # spacing = int(len(frequencies[N_spec_plot_min:N_spec_plot_max]) / N_spec_plot_tot)
+    spacing = 10
     plotting_frequencies = frequencies[N_spec_plot_min: N_spec_plot_max: spacing]
     # colors = cm.rainbow(np.linspace(0, 1, N_spec_plot_tot))
 
@@ -250,9 +255,21 @@ def animate(z, pulses, ms_between_frames=30, figuresize=(11, 4), saveas=""):
                                    frames=len(pulses), 
                                    interval=ms_between_frames)
     if saveas != "":
-        anim.save(saveas, writer='imagemagick', fps=int(1000/ms_between_frames))
-
-    return HTML(anim.to_html5_video())
+        Writer = animation.writers['ffmpeg']
+        writer = Writer(fps=int(1000 / ms_between_frames), metadata=dict(artist='Me'), bitrate=1800)
+        if 'mp4' in saveas:
+            print("Saving as .mp4")
+            anim.save(saveas, writer=writer)
+        elif '.gif' in saveas:
+            print("Saving as .gif")
+            anim.save(saveas, writer='imagemagick', fps=int(1000/ms_between_frames))
+        else:
+            print("Saving as .mp4")
+            anim.save(saveas+".mp4", writer=writer)
+            print("Saving as .gif")
+            anim.save(saveas+".gif", writer='imagemagick', fps=int(1000/ms_between_frames))
+    else:
+        return HTML(anim.to_html5_video())
 
 
 def animate_with_time(z, pulses, ms_between_frames=30, figuresize=(11, 4), 
@@ -312,6 +329,7 @@ def animate_with_time(z, pulses, ms_between_frames=30, figuresize=(11, 4),
 
     axs[0].axvline(z[fixed_z_1], color="forestgreen", lw=5, label=r"$z_1$")
     axs[0].axvline(z[fixed_z_2], color="darkred", lw=5, label=r"$z_2$")
+    # axs[0].text(z[fixed_z_1], -1.5, r'$z_1$')
     axs[0].legend(loc="upper center", ncol=2)
     fig.tight_layout()
 

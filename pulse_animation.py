@@ -256,18 +256,21 @@ def animate(z, pulses, ms_between_frames=30, figuresize=(11, 4), saveas=""):
                                    interval=ms_between_frames)
     if saveas != "":
         Writer = animation.writers['ffmpeg']
-        writer = Writer(fps=int(1000 / ms_between_frames), metadata=dict(artist='Me'), bitrate=1800)
+        writer = Writer(fps=int(1000 / ms_between_frames), 
+                        metadata=dict(artist='Me'), bitrate=1800)
         if 'mp4' in saveas:
             print("Saving as .mp4")
             anim.save(saveas, writer=writer)
         elif '.gif' in saveas:
             print("Saving as .gif")
-            anim.save(saveas, writer='imagemagick', fps=int(1000/ms_between_frames))
+            anim.save(saveas, writer='imagemagick', 
+                      fps=int(1000/ms_between_frames))
         else:
             print("Saving as .mp4")
             anim.save(saveas+".mp4", writer=writer)
             print("Saving as .gif")
-            anim.save(saveas+".gif", writer='imagemagick', fps=int(1000/ms_between_frames))
+            anim.save(saveas+".gif", writer='imagemagick', 
+                      fps=int(1000/ms_between_frames))
     else:
         return HTML(anim.to_html5_video())
 

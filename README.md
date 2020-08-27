@@ -87,4 +87,3 @@ that the spectral distribution is still a gaussian, and therefore also the
 pulse in time is a gaussian.
 
 ![](animations/spatial_vs_time.gif)
-

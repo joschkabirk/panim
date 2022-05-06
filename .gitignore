@@ -1,5 +1,13 @@
-pulse-venv
+# development
 .ipynb_checkpoints
 __pycache__
+pulse-venv
 *.code-workspace
 .DS_Store
+*.pdf
+*.mp4
+*.png
+
+# artifacts form pip install
+*.egg-info
+build

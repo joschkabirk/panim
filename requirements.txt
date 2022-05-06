@@ -1,0 +1,8 @@
+black
+ipython
+jupyter
+matplotlib
+numpy
+scipy
+tqdm
+# you also have to install ffmpeg (with brew install ffmpeg on macOS)

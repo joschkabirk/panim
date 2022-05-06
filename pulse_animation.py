@@ -508,7 +508,10 @@ def plot_pulses(
         ax.plot(z, pulses[i], color=colors[i])
         if plotname != "":
             if len(pulses) > 1:
-                fig.savefig(plotname + "_" + str(i + 1) + ".pdf")
+                plotname_full = f"{plotname}_{i + 1}.pdf"
+                print(f"Saving as {plotname_full}")
+                fig.savefig(plotname)
             else:
-                fig.savefig(plotname + ".pdf")
-    plt.show()
+                plotname_full = f"{plotname}.pdf"
+                print(f"Saving as {plotname_full}")
+                fig.savefig(plotname_full)

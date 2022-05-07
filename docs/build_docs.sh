@@ -13,4 +13,4 @@ sphinx-apidoc -f -o . ../panim
 make html
 
 # we have to create an empty .nojekyll file in order to make the html theme work
-touch _build/.nojekyll
+touch _build/html/.nojekyll

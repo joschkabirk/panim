@@ -1,9 +1,8 @@
-# Simulating light pulses in an optical fiber
+# panim - Pulse Animation
 
-The repository contains some simple python code to visualise the construction 
-and the propagation of light pulses.
-The code uses a method that aims be a good approximation to the 
-Fourier transformation.
+Python package to visualise the construction and the propagation of light pulses.
+To do that, the pulse is constructed from spectral components, aiming for a good
+approximation of a Fourier transform.
 
 ![](animations/optical_fibre_old.gif)
 

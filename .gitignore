@@ -8,6 +8,9 @@ pulse-venv
 *.mp4
 *.png
 
-# artifacts form pip install
+# artifacts from pip install
 *.egg-info
 build
+
+# artifacts from sphinx build
+docs/_build

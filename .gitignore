@@ -14,3 +14,4 @@ build
 
 # artifacts from sphinx build
 docs/_build
+docs/*.rst

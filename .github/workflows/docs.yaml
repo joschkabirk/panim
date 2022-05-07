@@ -18,6 +18,7 @@ jobs:
     - name: Build document with Sphinx
       run: bash docs/build_docs.sh
         
+    # rsync is needed for the auto-deployment of the gh-pages
     - name: Install rsync
       run: apt update && apt install -y rsync
         
@@ -25,6 +26,5 @@ jobs:
       if: ${{ github.event_name == 'push' }}
       uses: JamesIves/github-pages-deploy-action@3.7.1
       with:
-        ACCESS_TOKEN: ${{ secrets.DOC_DEPLOY_TOKEN }}
         BRANCH: gh-pages
         FOLDER: docs/_build/html

@@ -18,6 +18,9 @@ jobs:
     - name: Build document with Sphinx
       run: bash docs/build_docs.sh
         
+    - name: Install rsync
+      run: apt update && apt install -y rsync
+        
     - name: Deploy to GitHub pages
       if: ${{ github.event_name == 'push' }}
       uses: JamesIves/github-pages-deploy-action@3.7.1

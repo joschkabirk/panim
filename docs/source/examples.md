@@ -1,13 +1,4 @@
-# panim - Pulse Animation
-
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black) 
-[![Documentation](https://img.shields.io/badge/info-documentation-informational)](https://jobirk.github.io/panim/)
-
-Python package to visualise the construction and the propagation of light pulses.
-To do that, the pulse is constructed from spectral components, aiming for a good
-approximation of a Fourier transform.
-
-![](animations/optical_fibre_old.gif)
+# Examples
 
 You start with defining a frequency spectrum of the pulse you want to visualise.
 Afterwards, the code constructs the spectral components of the pulse according
@@ -22,7 +13,7 @@ frequency `k(ν)`.
 The function is constructed as the Taylor expansion around the center
 frequency `ν0`.
 
-![](plots/what_it_does.png)
+![](../../plots/what_it_does.png)
 
 This allows to visualise different effects that occur when
 propagating the pulse along a z-axis.
@@ -36,8 +27,28 @@ If the refractive index is the same for all frequencies, then the wave vector
 
 where `n` is the refractive index and `c_0` the speed of light in vacuum. The
 resulting propagation looks like this
+```py
+# Special case
+z = np.linspace(0, 200, 1000)
+p = calc_pulses(
+    z,
+    t_start=0,
+    t_end=2000,
+    n_steps=200,
+    nu_center=0.02,
+    k_i=[10 * 2 * np.pi * 0.02, 10, 0],
+    spec_width=600,
+)
+animate(
+    z,
+    p,
+    ms_between_frames=40,
+    figuresize=(14, 4),
+    saveas="./animations/group_equal_phase.mp4",
+)
+```
 
-![](animations/group_equal_phase.gif)
+![](../../animations/group_equal_phase.gif)
 
 which means that phase velocity and group velocity are the same here.
 
@@ -46,7 +57,27 @@ example, the phase velocity and the group velocity differ.
 Assuming that all higher order derivatives vanish, the resulting
 propagation looks like this:
 
-![](animations/group_delay.gif)
+```py
+# First order dispersion (group delay)
+z = np.linspace(0, 100, 1000)
+p = calc_pulses(
+    z,
+    t_start=0,
+    t_end=1000,
+    n_steps=200,
+    nu_center=0.025,
+    k_i=[4, 10, 0],
+    spec_width=600,
+)
+animate(
+    z,
+    p,
+    ms_between_frames=40,
+    figuresize=(14, 4),
+    saveas="./animations/1st_order_dispersion.mp4",
+)
+```
+![](../../animations/group_delay.gif)
 
 
 ## Group delay
@@ -64,13 +95,29 @@ The different orders here are the different orders of dispersion.
 Zeroth order dispersion basically means that the group velocity differs from
 the phase velocity (the case in the previous animation).
 
+
 ## Group velocity dispersion
 
 If also the second order dispersion is non-zero, then group 
 velocity dispersion (GVD) occurs, resulting in a linear frequency chirp 
 of the pulse:
 
-![](animations/group_velocity_dispersion.gif)
+```py
+# Second order dispersion (group velocity dispersion)
+z = np.linspace(-30, 600, 1000)
+p = calc_pulses(
+    z, t_start=0, t_end=2500, n_steps=500, nu_center=0.02, k_i=[1, 3, 2], spec_width=600
+)
+animate(
+    z,
+    p,
+    ms_between_frames=40,
+    figuresize=(14, 4),
+    saveas="./animations/group_velocity_dispersion.mp4",
+)
+```
+
+![](../../animations/group_velocity_dispersion.gif)
 
 
 ## Spatial representation vs. time representation
@@ -88,5 +135,5 @@ since only the spectral phases are changed, but not the amplitudes, which means
 that the spectral distribution is still a gaussian, and therefore also the
 pulse in time is a gaussian.
 
-![](animations/spatial_vs_time.gif)
+![](../../animations/spatial_vs_time.gif)
 

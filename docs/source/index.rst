@@ -1,3 +1,10 @@
+=======================
+panim - Pulse Animation
+=======================
+
+Python package to visualise the construction and the propagation of light pulses.
+To do that, the pulse is constructed from spectral components, aiming for a good
+approximation of a Fourier transform.
 
 .. image:: ../../animations/optical_fibre.gif
 
@@ -6,7 +13,8 @@
    :maxdepth: 2
    :hidden:
 
-   Quickstart <self>
+   Quick Start <self>
+   examples
    module_reference
    modules
 

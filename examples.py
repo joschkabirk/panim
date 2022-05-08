@@ -39,7 +39,7 @@ p = calc_pulses(
     z,
     t_start=0,
     t_end=2000,
-    n_steps=20,
+    n_steps=200,
     nu_center=0.02,
     k_i=[10 * 2 * np.pi * 0.02, 10, 0],
     spec_width=600,
@@ -61,7 +61,7 @@ p = calc_pulses(
     z,
     t_start=0,
     t_end=1000,
-    n_steps=20,
+    n_steps=200,
     nu_center=0.025,
     k_i=[4, 10, 0],
     spec_width=600,
@@ -78,7 +78,7 @@ animate(
 # (see https://www.rp-photonics.com/group_velocity_dispersion.html)
 z = np.linspace(-30, 600, 1000)
 p = calc_pulses(
-    z, t_start=0, t_end=2500, n_steps=50, nu_center=0.02, k_i=[1, 3, 2], spec_width=600,
+    z, t_start=0, t_end=2500, n_steps=500, nu_center=0.02, k_i=[1, 3, 2], spec_width=600,
 )
 animate(
     z,
@@ -94,7 +94,7 @@ p = calc_pulses(
     z,
     t_start=0,
     t_end=2500,
-    n_steps=20,
+    n_steps=200,
     nu_center=0.02,
     k_i=[1, 3, 2, 6],
     spec_width=600,

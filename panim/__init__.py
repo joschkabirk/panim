@@ -276,20 +276,21 @@ def animate(z, pulses, ms_between_frames=30, figuresize=(11, 4), saveas=""):
         interval=ms_between_frames,
     )
     if saveas != "":
-        Writer = animation.writers["ffmpeg"]
-        writer = Writer(
-            fps=int(1000 / ms_between_frames), metadata=dict(artist="Me"), bitrate=1800
-        )
         if "mp4" in saveas:
-            print("Saving as .mp4")
+            Writer = animation.writers["ffmpeg"]
+            writer = Writer(
+                fps=int(1000 / ms_between_frames), metadata=dict(artist="Me"), bitrate=1800
+            )
+        if "mp4" in saveas:
+            print(f"Saving as {saveas}")
             anim.save(saveas, writer=writer)
         elif ".gif" in saveas:
-            print("Saving as .gif")
+            print(f"Saving as {saveas}")
             anim.save(saveas, writer="imagemagick", fps=int(1000 / ms_between_frames))
         else:
-            print("Saving as .mp4")
+            print(f"Saving as {saveas}.mp4")
             anim.save(saveas + ".mp4", writer=writer)
-            print("Saving as .gif")
+            print(f"Saving as {saveas}.gif")
             anim.save(
                 saveas + ".gif", writer="imagemagick", fps=int(1000 / ms_between_frames)
             )

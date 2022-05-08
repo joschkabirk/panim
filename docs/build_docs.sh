@@ -6,6 +6,12 @@ pip install .
 # install requirements for sphinx
 pip install -r docs/requirements.txt
 
+# render placeholders with §§§ syntax
+wget https://gitlab.cern.ch/atlas-flavor-tagging-tools/algorithms/umami/-/raw/master/.gitlab/workflow/replace_placeholders_in_md.py
+python replace_placeholders_in_md.py -i "docs/**/*.md"
+doxec docs/source/examples.md
+python examples_for_ci.ppy
+
 # build the documentation
 cd docs
 rm -rf _build _static _templates

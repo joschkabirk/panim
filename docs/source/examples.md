@@ -27,25 +27,13 @@ If the refractive index is the same for all frequencies, then the wave vector
 
 where `n` is the refractive index and `c_0` the speed of light in vacuum. The
 resulting propagation looks like this
+
+<!-- append examples_for_ci.py -->
 ```py
-# Special case
-z = np.linspace(0, 200, 1000)
-p = calc_pulses(
-    z,
-    t_start=0,
-    t_end=2000,
-    n_steps=200,
-    nu_center=0.02,
-    k_i=[10 * 2 * np.pi * 0.02, 10, 0],
-    spec_width=600,
-)
-animate(
-    z,
-    p,
-    ms_between_frames=40,
-    figuresize=(14, 4),
-    saveas="./animations/group_equal_phase.mp4",
-)
+from panim import *
+import os
+import numpy as np
+§§§examples.py:36:53§§§
 ```
 
 ![](../../animations/group_equal_phase.gif)
@@ -57,26 +45,11 @@ example, the phase velocity and the group velocity differ.
 Assuming that all higher order derivatives vanish, the resulting
 propagation looks like this:
 
+<!-- append examples_for_ci.py -->
 ```py
-# First order dispersion (group delay)
-z = np.linspace(0, 100, 1000)
-p = calc_pulses(
-    z,
-    t_start=0,
-    t_end=1000,
-    n_steps=200,
-    nu_center=0.025,
-    k_i=[4, 10, 0],
-    spec_width=600,
-)
-animate(
-    z,
-    p,
-    ms_between_frames=40,
-    figuresize=(14, 4),
-    saveas="./animations/1st_order_dispersion.mp4",
-)
+§§§examples.py:58:75§§§
 ```
+
 ![](../../animations/group_delay.gif)
 
 
@@ -102,19 +75,9 @@ If also the second order dispersion is non-zero, then group
 velocity dispersion (GVD) occurs, resulting in a linear frequency chirp 
 of the pulse:
 
+<!-- append examples_for_ci.py -->
 ```py
-# Second order dispersion (group velocity dispersion)
-z = np.linspace(-30, 600, 1000)
-p = calc_pulses(
-    z, t_start=0, t_end=2500, n_steps=500, nu_center=0.02, k_i=[1, 3, 2], spec_width=600
-)
-animate(
-    z,
-    p,
-    ms_between_frames=40,
-    figuresize=(14, 4),
-    saveas="./animations/group_velocity_dispersion.mp4",
-)
+§§§examples.py:77:89§§§
 ```
 
 ![](../../animations/group_velocity_dispersion.gif)

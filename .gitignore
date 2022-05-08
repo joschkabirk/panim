@@ -15,3 +15,6 @@ build
 # artifacts from sphinx build
 docs/_build
 docs/*.rst
+examples_for_ci.py
+examples_output
+replace_placeholders_in_md.py

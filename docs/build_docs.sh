@@ -10,6 +10,7 @@ pip install -r docs/requirements.txt
 wget -O replace_placeholders_in_md.py https://gitlab.cern.ch/atlas-flavor-tagging-tools/algorithms/umami/-/raw/master/.gitlab/workflow/replace_placeholders_in_md.py
 python replace_placeholders_in_md.py -i "docs/**/*.md" --no_backup
 doxec docs/source/examples.md
+mkdir examples_output
 python examples_for_ci.py
 
 # build the documentation

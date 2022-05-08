@@ -36,7 +36,7 @@ import numpy as np
 §§§examples.py:36:53§§§
 ```
 
-![](../../animations/group_equal_phase.gif)
+![](../../examples_output/group_equal_phase.gif)
 
 which means that phase velocity and group velocity are the same here.
 
@@ -50,7 +50,7 @@ propagation looks like this:
 §§§examples.py:58:75§§§
 ```
 
-![](../../animations/group_delay.gif)
+![](../../examples_output/1st_order_dispersion.gif)
 
 
 ## Group delay
@@ -80,7 +80,7 @@ of the pulse:
 §§§examples.py:77:89§§§
 ```
 
-![](../../animations/group_velocity_dispersion.gif)
+![](../../examples_output/group_velocity_dispersion.gif)
 
 
 ## Spatial representation vs. time representation
@@ -98,5 +98,5 @@ since only the spectral phases are changed, but not the amplitudes, which means
 that the spectral distribution is still a gaussian, and therefore also the
 pulse in time is a gaussian.
 
-![](../../animations/spatial_vs_time.gif)
+![](../../examples_output/spatial_vs_time.gif)
 

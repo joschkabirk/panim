@@ -28,7 +28,7 @@ If the refractive index is the same for all frequencies, then the wave vector
 where `n` is the refractive index and `c_0` the speed of light in vacuum. The
 resulting propagation looks like this
 
-<!-- append examples_for_ci.py -->
+<!-- write examples_for_ci.py -->
 ```py
 from panim import *
 import os

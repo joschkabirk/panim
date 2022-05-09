@@ -8,7 +8,7 @@ approximation of a Fourier transform.
 
 .. image:: ../../animations/optical_fibre.gif
 
-.. table of contents on the left side of the website
+.. table of contents in the header
 .. toctree::
    :maxdepth: 2
    :hidden:

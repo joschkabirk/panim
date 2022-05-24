@@ -73,7 +73,7 @@ smv_remote_whitelist = r'^.*$'
 
 # settings for version switcher
 html_static_path = ['_static']
-json_url = "file:///Users/joschkabirk/Coding/puma/docs/_build/html/master/_static/switcher.json"
+json_url = "https://jobirk.github.io/panim/master/_static/switcher.json"
 
 default_role = "code"
 
@@ -96,6 +96,6 @@ html_theme_options = {
         "json_url": json_url,
         "version_match": "test",
     },
-    "navbar_end": ["version-switcher"]
+    "navbar_end": ["version-switcher", "navbar-icon-links"]
 }
 pygments_style = "friendly"

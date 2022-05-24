@@ -11,8 +11,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@master
+        with:
+          fetch-depth: 0
 
-      - name: Build document with Sphinx
+      - name: Build docs with Sphinx
         run: bash docs/build_docs.sh
 
       # rsync is needed for the auto-deployment of the gh-pages

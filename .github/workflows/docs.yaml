@@ -1,9 +1,6 @@
 name: docs
 
-on: 
-  push:
-    branches:
-      - master
+on: [push]
 
 jobs:
   docs:
@@ -12,21 +9,21 @@ jobs:
     name: Build documentation and deploy on gh-pages
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@master
-    
-    - name: Build document with Sphinx
-      run: bash docs/build_docs.sh
-        
-    # rsync is needed for the auto-deployment of the gh-pages
-    - name: Install rsync
-      run: apt update && apt install -y rsync
-        
-    # This workflow will only update the gh-pages branch if the documentation
-    # is affected by the changes that triggered the job
-    - name: Deploy to GitHub pages
-      if: ${{ github.event_name == 'push' }}
-      uses: JamesIves/github-pages-deploy-action@3.7.1
-      with:
-        BRANCH: gh-pages
-        FOLDER: docs/_build/html
+      - name: Checkout
+        uses: actions/checkout@master
+
+      - name: Build document with Sphinx
+        run: bash docs/build_docs.sh
+
+      # rsync is needed for the auto-deployment of the gh-pages
+      - name: Install rsync
+        run: apt update && apt install -y rsync
+
+      # This workflow will only update the gh-pages branch if the documentation
+      # is affected by the changes that triggered the job
+      - name: Deploy to GitHub pages
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: JamesIves/github-pages-deploy-action@3.7.1
+        with:
+          BRANCH: gh-pages
+          FOLDER: docs/_build/html

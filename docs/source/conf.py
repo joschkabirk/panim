@@ -40,36 +40,31 @@ extensions = [
     "sphinx_multiversion",
 ]
 
-# Configuration of sphinx-autoapi extension
+# -- sphinx-autoapi extension -----------------------------------------------
 # https://sphinx-autoapi.readthedocs.io/en/latest/reference/config.html#
 autoapi_type = "python"
 autoapi_dirs = ["../../panim"]
 autoapi_python_use_implicit_namespaces = True
 autoapi_python_class_content = "both"
 
-# Add any paths that contain templates here, relative to this directory.
-templates_path = ["_templates"]
-html_sidebars = {
-    "**": [
-        "versioning.html",
-    ],
-}
 
-# List of patterns, relative to source directory, that match files and
-# directories to ignore when looking for source files.
-# This pattern also affects html_static_path and html_extra_path.
-exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
-
-# settings for sphinx-multiversion
+# -- sphinx-multiversion extension -----------------------------------------------
 # define which releases are used in sphinx-multiversion
 # smv_released_pattern = r"^tags/.*$" 
 # define which tags are used in sphinx-multiversion
 smv_tag_whitelist = r"^.*$"  
 # define which branches are used in sphinx-multiversion
 smv_branch_whitelist = r"^(master)"
-# smv_branch_whitelist = None
 # Whitelist pattern for remotes (set to None to use local branches only)
 smv_remote_whitelist = None
+
+
+# List of patterns, relative to source directory, that match files and
+# directories to ignore when looking for source files.
+# This pattern also affects html_static_path and html_extra_path.
+exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
+# Add any paths that contain templates here, relative to this directory.
+templates_path = ["_templates"]
 
 # settings for version switcher
 html_static_path = ['_static']

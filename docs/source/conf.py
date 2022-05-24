@@ -82,8 +82,6 @@ default_role = "code"
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-version_match = panim.__version__
-
 html_theme = "pydata_sphinx_theme"
 html_theme_options = {
     "icon_links": [
@@ -96,7 +94,7 @@ html_theme_options = {
     ],
     "switcher": {
         "json_url": json_url,
-        "version_match": version_match,
+        "version_match": "latest",
     },
     "navbar_end": ["version-switcher", "navbar-icon-links"]
 }

@@ -1,4 +1,6 @@
-Sphinx~=4.2.0
+doxec
 myst-parser~=0.17.0
 pydata-sphinx-theme
-doxec
+sphinx-autoapi
+sphinx-multiversion
+Sphinx~=4.2.0

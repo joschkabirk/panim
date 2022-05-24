@@ -60,6 +60,21 @@ html_sidebars = {
 # This pattern also affects html_static_path and html_extra_path.
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
+# settings for sphinx-multiversion
+# define which releases are used in sphinx-multiversion
+# smv_released_pattern = r"^tags/.*$" 
+# define which tags are used in sphinx-multiversion
+smv_tag_whitelist = r"^.*$"  
+# define which branches are used in sphinx-multiversion
+smv_branch_whitelist = r"^(master)"
+# smv_branch_whitelist = None
+# Whitelist pattern for remotes (set to None to use local branches only)
+smv_remote_whitelist = r'^.*$' 
+
+# settings for version switcher
+html_static_path = ['_static']
+json_url = "file:///Users/joschkabirk/Coding/puma/docs/_build/html/master/_static/switcher.json"
+
 default_role = "code"
 
 # -- Options for HTML output -------------------------------------------------
@@ -77,5 +92,10 @@ html_theme_options = {
             "type": "fontawesome",
         },
     ],
+    "switcher": {
+        "json_url": json_url,
+        "version_match": "test",
+    },
+    "navbar_end": ["version-switcher"]
 }
 pygments_style = "friendly"

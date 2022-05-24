@@ -69,7 +69,7 @@ smv_tag_whitelist = r"^.*$"
 smv_branch_whitelist = r"^(master)"
 # smv_branch_whitelist = None
 # Whitelist pattern for remotes (set to None to use local branches only)
-smv_remote_whitelist = r'^(origin/master)' 
+smv_remote_whitelist = None
 
 # settings for version switcher
 html_static_path = ['_static']

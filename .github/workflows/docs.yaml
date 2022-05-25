@@ -14,11 +14,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: librep # render placeholders with librep
-        run: |
-          pip install librep
-          librep --ref_dir $PWD --input "docs/**/*.md" --no_backup
-
       - name: Build docs with Sphinx
         run: bash docs/build_docs.sh
 

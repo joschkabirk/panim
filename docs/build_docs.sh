@@ -1,10 +1,12 @@
 #!/bin/bash
 
-# install requirements and puma
-pip install .
+# install requirements and panim
+# pip install .
+pip install -r requirements.txt
 
 # install requirements for sphinx
 pip install -r docs/requirements.txt
+export PYTHONPATH=$PWD:$PYTHONPATH
 
 # build the documentation
 rm -rf docs/_*

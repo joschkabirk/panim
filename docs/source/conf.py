@@ -12,6 +12,7 @@
 
 import os
 import sys
+import panim
 
 sys.path.insert(0, os.path.abspath("."))
 sys.path.insert(0, os.path.abspath("../../panim"))
@@ -69,6 +70,7 @@ templates_path = ["_templates"]
 # settings for version switcher
 html_static_path = ['_static']
 json_url = "https://jobirk.github.io/panim/master/_static/switcher.json"
+version_match = panim.__version__
 
 default_role = "code"
 
@@ -89,7 +91,7 @@ html_theme_options = {
     ],
     "switcher": {
         "json_url": json_url,
-        "version_match": "latest",
+        "version_match": version_match,
     },
     "navbar_end": ["version-switcher", "navbar-icon-links"]
 }

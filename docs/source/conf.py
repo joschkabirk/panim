@@ -72,7 +72,7 @@ html_static_path = ['_static']
 json_url = "https://jobirk.github.io/panim/master/_static/switcher.json"
 release = panim.__version__
 if "dev" in release:
-    version_match = "latest"
+    version_match = "master"
     # We want to keep the relative reference if we are in dev mode
     # but we want the whole url if we are effectively in a released version
     # json_url = "/_static/switcher.json"

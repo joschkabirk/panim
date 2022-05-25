@@ -8,7 +8,7 @@ from IPython.display import HTML
 from tqdm import tqdm
 import os
 
-# import matplotlib.cm as cm
+__version__ = "0.1.0rc1"
 
 c = 1
 

@@ -55,7 +55,7 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 templates_path = ["_templates"]
 
 # settings for version switcher
-html_static_path = ['_static']
+html_static_path = ["_static"]
 json_url = "https://jobirk.github.io/panim/master/_static/switcher.json"
 release = panim.__version__
 if "dev" in release:
@@ -87,6 +87,6 @@ html_theme_options = {
         "json_url": json_url,
         "version_match": version_match,
     },
-    "navbar_end": ["version-switcher", "navbar-icon-links"]
+    "navbar_end": ["version-switcher", "navbar-icon-links"],
 }
 pygments_style = "friendly"

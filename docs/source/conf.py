@@ -74,7 +74,7 @@ git_branch = (
     run(command, capture_output=True, check=True).stdout.strip().decode("utf-8")
 )
 
-if "dev" in release or git_branch=="master":
+if "dev" in release:
     version_match = "master"
 else:
     version_match = f"v{release}"

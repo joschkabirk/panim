@@ -13,6 +13,7 @@
 import os
 import sys
 import panim
+from subprocess import run
 
 sys.path.insert(0, os.path.abspath("."))
 sys.path.insert(0, os.path.abspath("../../panim"))
@@ -58,11 +59,15 @@ templates_path = ["_templates"]
 html_static_path = ["_static"]
 json_url = "https://jobirk.github.io/panim/master/_static/switcher.json"
 release = panim.__version__
-if "dev" in release:
+
+# get currently active branch
+command = "git rev-parse --abbrev-ref HEAD".split()
+git_branch = (
+    run(command, capture_output=True, check=True).stdout.strip().decode("utf-8")
+)
+
+if "dev" in release or git_branch=="master":
     version_match = "master"
-    # We want to keep the relative reference if we are in dev mode
-    # but we want the whole url if we are effectively in a released version
-    # json_url = "/_static/switcher.json"
 else:
     version_match = f"v{release}"
 

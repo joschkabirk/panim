@@ -15,14 +15,12 @@ from subprocess import run
 
 
 def build_docs_version(version):
-    """Builds the docs for a specific version"""
-
-    print(f"Building docs for branch/tag {version}")
-
+    """Builds the docs for a specific version. The latest conf.py is used no matter
+    if it differs from the version from back then."""
     # checkout the version/tag and obtain latest conf.py
     run(f"git checkout {version}", shell=True, check=True)
     if os.path.isfile("docs/source/conf.py"):
-        print("removing the old conf.py file")
+        # removing the old conf.py file to make room for the latest one
         os.remove("docs/source/conf.py")
     copy("conf_latest.py", "docs/source/conf.py")
 

@@ -38,6 +38,7 @@ extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.doctest",
     "myst_parser",
+    "sphinx.ext.napoleon",
     "autoapi.extension",
 ]
 
@@ -55,6 +56,13 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
 
+default_role = "code"
+
+# -- Options for HTML output -------------------------------------------------
+
+# The theme to use for HTML and HTML Help pages.  See the documentation for
+# a list of builtin themes.
+#
 # settings for version switcher
 html_static_path = ["_static"]
 json_url = "https://jobirk.github.io/panim/master/_static/switcher.json"
@@ -71,13 +79,6 @@ if "dev" in release or git_branch=="master":
 else:
     version_match = f"v{release}"
 
-default_role = "code"
-
-# -- Options for HTML output -------------------------------------------------
-
-# The theme to use for HTML and HTML Help pages.  See the documentation for
-# a list of builtin themes.
-#
 html_theme = "pydata_sphinx_theme"
 html_theme_options = {
     "icon_links": [
@@ -94,4 +95,6 @@ html_theme_options = {
     },
     "navbar_end": ["version-switcher", "navbar-icon-links"],
 }
+
+# The name of the Pygments (syntax highlighting) style to use.
 pygments_style = "friendly"

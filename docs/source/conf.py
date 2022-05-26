@@ -38,7 +38,6 @@ extensions = [
     "sphinx.ext.doctest",
     "myst_parser",
     "autoapi.extension",
-    "sphinx_multiversion",
 ]
 
 # -- sphinx-autoapi extension -----------------------------------------------
@@ -47,18 +46,6 @@ autoapi_type = "python"
 autoapi_dirs = ["../../panim"]
 autoapi_python_use_implicit_namespaces = True
 autoapi_python_class_content = "both"
-
-
-# -- sphinx-multiversion extension -----------------------------------------------
-# define which releases are used in sphinx-multiversion
-# smv_released_pattern = r"^tags/.*$" 
-# define which tags are used in sphinx-multiversion
-smv_tag_whitelist = r"^.*$"  
-# define which branches are used in sphinx-multiversion
-smv_branch_whitelist = r"^(master)"
-# Whitelist pattern for remotes (set to None to use local branches only)
-smv_remote_whitelist = None
-
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.

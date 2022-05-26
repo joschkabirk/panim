@@ -9,7 +9,6 @@
 
    Quick Start <self>
    examples
-   modules
 
 Indices and tables
 ==================

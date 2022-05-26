@@ -24,7 +24,7 @@ jobs:
       # This workflow will only update the gh-pages branch if the documentation
       # is affected by the changes that triggered the job
       - name: Deploy to GitHub pages
-        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        # if: github.event_name == 'push' && github.ref == 'refs/heads/master'
         uses: JamesIves/github-pages-deploy-action@3.7.1
         with:
           BRANCH: gh-pages

@@ -54,8 +54,14 @@ def main():
     )
 
     copy("docs/source/conf.py", "./conf_latest.py")
+    
+    # build docs for main branch no matter what versions are present in the switcher
+    build_docs_version("master")
 
+    # build docs for the version that are listed in the version switcher
     for entry in version_switcher:
+        if entry["version"] == "master":
+            continue
         build_docs_version(entry["version"])
 
     # checkout initial branch for following steps

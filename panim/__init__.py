@@ -8,7 +8,7 @@ from IPython.display import HTML
 from tqdm import tqdm
 import os
 
-__version__ = "0.1.0dev"
+__version__ = "0.1.0rc2"
 
 c = 1
 

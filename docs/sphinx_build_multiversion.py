@@ -16,7 +16,13 @@ from subprocess import run
 
 def build_docs_version(version):
     """Builds the docs for a specific version. The latest conf.py is used no matter
-    if it differs from the version from back then."""
+    if it differs from the version from back then.
+
+    Parameters
+    ----------
+    version : str
+        Branch or tag name for which the docs are built
+    """
     # checkout the version/tag and obtain latest conf.py
     run(f"git checkout {version}", shell=True, check=True)
     if os.path.isfile("docs/source/conf.py"):
@@ -52,7 +58,7 @@ def main():
     )
 
     copy("docs/source/conf.py", "./conf_latest.py")
-    
+
     # build docs for main branch no matter what versions are present in the switcher
     build_docs_version("master")
 

@@ -70,6 +70,7 @@ def main():
 
     # checkout initial branch for following steps
     run(f"git checkout {initial_branch}", shell=True, check=True)
+    os.remove("./conf_latest.py")
 
 
 if __name__ == "__main__":

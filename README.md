@@ -22,7 +22,7 @@ frequency `k(ν)`.
 The function is constructed as the Taylor expansion around the center
 frequency `ν0`.
 
-![](https://raw.githubusercontent.com/jobirk/panim/master/docs/source/assets//what_it_does.png)
+![](https://raw.githubusercontent.com/jobirk/panim/master/docs/source/assets/what_it_does.png)
 
 This allows to visualise different effects that occur when
 propagating the pulse along a z-axis.

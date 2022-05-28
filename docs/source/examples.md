@@ -13,7 +13,7 @@ frequency `k(ν)`.
 The function is constructed as the Taylor expansion around the center
 frequency `ν0`.
 
-![](../../plots/what_it_does.png)
+![](assets/what_it_does.png)
 
 This allows to visualise different effects that occur when
 propagating the pulse along a z-axis.
@@ -37,8 +37,6 @@ import numpy as np
 §§§examples.py:36:53§§§
 ```
 
-![](../../examples_output/group_equal_phase.gif)
-
 ![](assets/group_equal_phase.gif)
 
 which means that phase velocity and group velocity are the same here.
@@ -54,7 +52,7 @@ propagation looks like this:
 §§§examples.py:58:75§§§
 ```
 
-![](../../examples_output/1st_order_dispersion.gif)
+![](assets/1st_order_dispersion.gif)
 
 ## Group delay
 
@@ -83,7 +81,7 @@ of the pulse:
 §§§examples.py:77:89§§§
 ```
 
-![](../../examples_output/group_velocity_dispersion.gif)
+![](assets/group_velocity_dispersion.gif)
 
 ## Spatial representation vs. time representation
 
@@ -100,4 +98,4 @@ since only the spectral phases are changed, but not the amplitudes, which means
 that the spectral distribution is still a gaussian, and therefore also the
 pulse in time is a gaussian.
 
-![](../../examples_output/spatial_vs_time.gif)
+![](assets/spatial_vs_time.gif)

@@ -30,7 +30,7 @@ propagating the pulse along a z-axis.
 ## Phase velocity and group velocity
 
 If the refractive index is the same for all frequencies, then the wave vector
-`k(ν)` has to fulfill the equations
+`k(ν)` has to fulfil the equations
 
     k(ν0) = k'(ν0) * ν0 ,  k'(ν0) = n / c_0
 
@@ -41,7 +41,7 @@ resulting propagation looks like this
 
 which means that phase velocity and group velocity are the same here.
 
-If `k(ν0)` and `k'(ν0)` do not fulfill the conditions as in the above
+If `k(ν0)` and `k'(ν0)` do not fulfil the conditions as in the above
 example, the phase velocity and the group velocity differ.
 Assuming that all higher order derivatives vanish, the resulting
 propagation looks like this:
@@ -51,7 +51,7 @@ propagation looks like this:
 ## Group delay
 
 Group delay in general is the derivative `dφ/dω`. In physical terms, the group
-delay is the time it take for a spectral component to propagate through the
+delay is the time it takes for a spectral component to propagate through the
 system you are looking at. Therefore, if the different spectral components
 propagate at different velocities like in an optical fibre, the group delay
 changes with the frequency.
@@ -74,16 +74,16 @@ of the pulse:
 ## Spatial representation vs. time representation
 
 As can be seen in the animation above, when having GVD the pulse become
-asymmetical along the z-axis. However, this is not the case when looking at the
+asymmetrical along the z-axis. However, this is not the case when looking at the
 electric field at one fixed position as a function of time.
 This is shown in the animation below. The upper animation shows the propagation
 of the pulse along the z-axis, while the lower animation shows the electric
 field of the pulse at the position which is marked in the upper animation with
 the vertical line as a function of time.
 
-In the time domain (at a fixed position), the pulse still has a gaussian shape,
+In the time domain (at a fixed position), the pulse still has a Gaussian shape,
 since only the spectral phases are changed, but not the amplitudes, which means
-that the spectral distribution is still a gaussian, and therefore also the
-pulse in time is a gaussian.
+that the spectral distribution is still a Gaussian, and therefore also the
+pulse in time is a Gaussian.
 
 ![](https://raw.githubusercontent.com/jobirk/panim/master/docs/source/assets/spatial_vs_time.gif)

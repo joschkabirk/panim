@@ -38,6 +38,7 @@ import numpy as np
 ```
 
 ![](assets/group_equal_phase.gif)
+<img src=https://github.com/jobirk/panim/raw/examples-material/group_equal_phase.gif width=500>
 
 which means that phase velocity and group velocity are the same here.
 
@@ -45,8 +46,6 @@ If `k(ν0)` and `k'(ν0)` do not fulfil the conditions as in the above
 example, the phase velocity and the group velocity differ.
 Assuming that all higher order derivatives vanish, the resulting
 propagation looks like this:
-
-<!-- append examples_for_ci.py -->
 
 ```py
 §§§examples/examples.py:58:75§§§
@@ -74,8 +73,6 @@ the phase velocity (the case in the previous animation).
 If also the second order dispersion is non-zero, then group
 velocity dispersion (GVD) occurs, resulting in a linear frequency chirp
 of the pulse:
-
-<!-- append examples_for_ci.py -->
 
 ```py
 §§§examples/examples.py:77:89§§§

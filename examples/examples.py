@@ -49,7 +49,7 @@ animate(
     p,
     ms_between_frames=40,
     figuresize=(14, 4),
-    saveas="./examples_output/group_equal_phase.gif",
+    saveas="./plots/group_equal_phase.gif",
 )
 
 # See here for overview of dispersion terms:
@@ -71,7 +71,7 @@ animate(
     p,
     ms_between_frames=40,
     figuresize=(14, 4),
-    saveas="./examples_output/1st_order_dispersion.gif",
+    saveas="./plots/1st_order_dispersion.gif",
 )
 
 # Second order dispersion (group delay dispersion/ group velocity dispersion)
@@ -85,7 +85,7 @@ animate(
     p,
     ms_between_frames=40,
     figuresize=(14, 4),
-    saveas="./examples_output/group_velocity_dispersion.gif",
+    saveas="./plots/group_velocity_dispersion.gif",
 )
 
 # Third order dispersion
@@ -104,5 +104,5 @@ animate(
     p,
     ms_between_frames=40,
     figuresize=(14, 4),
-    saveas="./examples_output/3rd_order_dispersion.gif",
+    saveas="./plots/3rd_order_dispersion.gif",
 )

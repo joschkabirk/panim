@@ -4,6 +4,7 @@ import numpy as np
 
 z = np.linspace(-20, 200, 10000)
 # +z_max=100 - nice settings to get three good pulses with stretching
+os.makedirs("plots", exist_ok=True)
 
 # Pictures of frequency chirpes pulses
 os.makedirs("plots/chirped_pulses", exist_ok=True)
@@ -20,6 +21,7 @@ plot_pulses(
 )
 
 # Spectral components of a pulse
+os.makedirs("plots/sum_demonstration", exist_ok=True)
 z = np.linspace(-70, 70, 1000)
 d = sin_sum(
     z,

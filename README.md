@@ -37,7 +37,7 @@ If the refractive index is the same for all frequencies, then the wave vector
 where `n` is the refractive index and `c_0` the speed of light in vacuum. The
 resulting propagation looks like this
 
-![](https://raw.githubusercontent.com/jobirk/panim/master/docs/source/assets/group_equal_phase.gif)
+![](https://raw.githubusercontent.com/jobirk/panim/examples-material/group_equal_phase.gif)
 
 which means that phase velocity and group velocity are the same here.
 
@@ -46,7 +46,7 @@ example, the phase velocity and the group velocity differ.
 Assuming that all higher order derivatives vanish, the resulting
 propagation looks like this:
 
-![](https://raw.githubusercontent.com/jobirk/panim/master/docs/source/assets/group_delay.gif)
+![](https://raw.githubusercontent.com/jobirk/panim/examples-material/first_order_dispersion.gif)
 
 ## Group delay
 
@@ -69,7 +69,7 @@ If also the second order dispersion is non-zero, then group
 velocity dispersion (GVD) occurs, resulting in a linear frequency chirp
 of the pulse:
 
-![](https://raw.githubusercontent.com/jobirk/panim/master/docs/source/assets/group_velocity_dispersion.gif)
+![](https://raw.githubusercontent.com/jobirk/panim/examples-material/second_order_dispersion.gif)
 
 ## Spatial representation vs. time representation
 

@@ -13,7 +13,7 @@ p = calc_pulses(
     z,
     t_start=0,
     t_end=2500,
-    n_steps=500,
+    n_steps=50,
     nu_center=0.02,
     k_i=[1, 3, 2],
     spec_width=600,

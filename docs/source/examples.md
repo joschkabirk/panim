@@ -32,7 +32,7 @@ resulting propagation looks like this
 §§§examples/group_equal_phase.py§§§
 ```
 
-![](assets/group_equal_phase.gif)
+![](https://raw.githubusercontent.com/jobirk/panim/examples-material/group_equal_phase.gif)
 
 which means that phase velocity and group velocity are the same here.
 
@@ -45,7 +45,7 @@ propagation looks like this:
 §§§examples/first_order_dispersion.py§§§
 ```
 
-![](assets/1st_order_dispersion.gif)
+![](https://raw.githubusercontent.com/jobirk/panim/examples-material/first_order_dispersion.gif)
 
 ## Group delay
 
@@ -72,7 +72,7 @@ of the pulse:
 §§§examples/second_order_dispersion.py§§§
 ```
 
-![](assets/group_velocity_dispersion.gif)
+![](https://raw.githubusercontent.com/jobirk/panim/examples-material/second_order_dispersion.gif)
 
 ## Spatial representation vs. time representation
 

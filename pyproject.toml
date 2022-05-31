@@ -3,7 +3,7 @@ requires = ["setuptools", "wheel"]
 
 [tool.black]
 line-length = 88
-target-version = ['py3.9']
+target-version = ['py39']
 include = '\.pyi?$'
 exclude = '''
 /(

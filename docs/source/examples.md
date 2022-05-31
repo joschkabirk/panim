@@ -34,7 +34,7 @@ resulting propagation looks like this
 from panim import *
 import os
 import numpy as np
-§§§examples.py:36:53§§§
+§§§examples/examples.py:36:53§§§
 ```
 
 ![](assets/group_equal_phase.gif)
@@ -49,7 +49,7 @@ propagation looks like this:
 <!-- append examples_for_ci.py -->
 
 ```py
-§§§examples.py:58:75§§§
+§§§examples/examples.py:58:75§§§
 ```
 
 ![](assets/1st_order_dispersion.gif)
@@ -78,7 +78,7 @@ of the pulse:
 <!-- append examples_for_ci.py -->
 
 ```py
-§§§examples.py:77:89§§§
+§§§examples/examples.py:77:89§§§
 ```
 
 ![](assets/group_velocity_dispersion.gif)

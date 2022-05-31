@@ -28,17 +28,11 @@ If the refractive index is the same for all frequencies, then the wave vector
 where `n` is the refractive index and `c_0` the speed of light in vacuum. The
 resulting propagation looks like this
 
-<!-- write examples_for_ci.py -->
-
 ```py
-from panim import *
-import os
-import numpy as np
-§§§examples/examples.py:36:53§§§
+§§§examples/group_equal_phase.py§§§
 ```
 
 ![](assets/group_equal_phase.gif)
-<img src=https://github.com/jobirk/panim/raw/examples-material/group_equal_phase.gif width=500>
 
 which means that phase velocity and group velocity are the same here.
 
@@ -48,7 +42,7 @@ Assuming that all higher order derivatives vanish, the resulting
 propagation looks like this:
 
 ```py
-§§§examples/examples.py:58:75§§§
+§§§examples/first_order_dispersion.py§§§
 ```
 
 ![](assets/1st_order_dispersion.gif)
@@ -75,7 +69,7 @@ velocity dispersion (GVD) occurs, resulting in a linear frequency chirp
 of the pulse:
 
 ```py
-§§§examples/examples.py:77:89§§§
+§§§examples/second_order_dispersion.py§§§
 ```
 
 ![](assets/group_velocity_dispersion.gif)

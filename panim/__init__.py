@@ -13,18 +13,18 @@ __version__ = "0.1.1dev"
 c = 1
 
 
-def k(nu, nu_center, k0=1, k1=0, k2=0, k3=0):
+def wave_vector(nu, nu_center, k_0=1, k_1=0, k_2=0, k_3=0):
     """Calculates the wave vector k as a function of the frequency nu
 
     Parameters
     ----------
-    k0 : float, optional
+    k_0 : float, optional
         Zero-order derivative
-    k1 : float, optional
+    k_1 : float, optional
         First order derivative dk/dω
-    k2 : float, optional
+    k_2 : float, optional
         Second order derivative d^2k/dω^2
-    k3 : float, optional
+    k_3 : float, optional
         Third order derivative d^3k/dω^3
 
     Returns
@@ -38,10 +38,10 @@ def k(nu, nu_center, k0=1, k1=0, k2=0, k3=0):
     omega_0 = 2 * np.pi * nu_center
 
     return (
-        k0
-        + k1 * (omega - omega_0)
-        + k2 * (omega - omega_0) ** 2
-        + k3 * (omega - omega_0) ** 3
+        k_0
+        + k_1 * (omega - omega_0)
+        + k_2 * (omega - omega_0) ** 2
+        + k_3 * (omega - omega_0) ** 3
     )
 
 
@@ -136,7 +136,7 @@ def sin_sum(
     # now loop over all frequencies and calculate the corresponding spectral
     # component
     for i in range(len(frequencies)):
-        phi_nu = k(frequencies[i], nu_center, *k_i) * z
+        phi_nu = wave_vector(frequencies[i], nu_center, *k_i) * z
         E_nu[i, :] = spectrum[i] * np.sin(2 * np.pi * frequencies[i] * t - phi_nu)
 
         if plotting:

@@ -46,24 +46,24 @@ def wave_vector(nu, nu_center, k_0=1, k_1=0, k_2=0, k_3=0):
 
 
 def sin_sum(
-    z,
-    t,
-    nu_center=1,
-    nu_min=0.001,
-    N_frequencies=4000,
-    spec_width=200,
-    k_i=[1, 5, 0],
-    plotting=False,
-    z_arrow=False,
-    figuresize=(11, 4),
-    savein="",
+    z: np.ndarray,
+    t: float,
+    nu_center: float = 1,
+    nu_min: float = 0.001,
+    N_frequencies: int = 4000,
+    spec_width: float = 200,
+    k_i: list = [1, 5, 0],
+    plotting: bool = False,
+    z_arrow: bool = False,
+    figuresize: tuple = (11, 4),
+    savein: str = "",
 ):
     """Calculates the sum of plane waves (sinusoidal signals) over a
        given frequency spectrum
 
     Parameters
     ----------
-    z : array_like
+    z : np.ndarray
         Array of the z-axis your wave packet is propagating on.
     t : float
         Time at which you want to calculate the current spatial form of the
@@ -115,7 +115,7 @@ def sin_sum(
     spectrum = signal.gaussian(len(frequencies), std=spec_width)
 
     # create array for spectral components
-    E_nu = np.zeros([len(frequencies), len(z)])
+    E_field_spec_components = np.zeros([len(frequencies), len(z)])
 
     n_plotted = 0
     # N_spec_plot_tot = 20
@@ -137,14 +137,19 @@ def sin_sum(
     # component
     for i in range(len(frequencies)):
         phi_nu = wave_vector(frequencies[i], nu_center, *k_i) * z
-        E_nu[i, :] = spectrum[i] * np.sin(2 * np.pi * frequencies[i] * t - phi_nu)
+        E_field_spec_components[i, :] = spectrum[i] * np.sin(
+            2 * np.pi * frequencies[i] * t - phi_nu
+        )
 
         if plotting:
             if frequencies[i] in plotting_frequencies:
-                ax.plot(z, E_nu[i], label=frequencies[i])  # , color=colors[n_plotted])
+                ax.plot(
+                    z, E_field_spec_components[i], label=frequencies[i]
+                )  # , color=colors[n_plotted])
                 n_plotted += 1
 
-    E = E_nu.sum(axis=0)
+    # Calculate the total E-field as the sum over all spectral components
+    E_field = E_field_spec_components.sum(axis=0)
 
     # plot the different spectral components (in the center of the spectrum),
     # the resulting pulse (sum of the spectral components) and the underlying
@@ -152,11 +157,10 @@ def sin_sum(
     if plotting:
         if savein != "":
             os.system("mkdir -p " + savein)
-        ymin = E_nu.min() * 1.1
-        ymax = E_nu.max() * 1.1
+        ymin = E_field_spec_components.min() * 1.1
+        ymax = E_field_spec_components.max() * 1.1
         ax.set_ylim(ymin, ymax)
         print("plotted", n_plotted, "frequencies")
-        plt.show()
         if savein != "":
             fig.savefig(savein + "/spectral_components.pdf")
 
@@ -164,10 +168,10 @@ def sin_sum(
         fig, ax = plt.subplots(figsize=figuresize, frameon=False)
         ax.set_xlim(z.min(), z.max())
         plt.axis("off")
-        ymin = E.min() * 2
-        ymax = E.max()
+        ymin = E_field.min() * 2
+        ymax = E_field.max()
         ax.set_ylim(ymin, ymax)
-        ax.plot(z, E)
+        ax.plot(z, E_field)
         if savein != "":
             fig.savefig(savein + "/resulting_pulse.pdf")
 
@@ -179,7 +183,7 @@ def sin_sum(
         if savein != "":
             fig.savefig(savein + "/spectrum.pdf")
 
-    return E
+    return E_field
 
 
 def calc_pulses(z, t_start, t_end, n_steps, nu_center=1, k_i=[1, 5, 0], spec_width=100):
@@ -279,7 +283,9 @@ def animate(z, pulses, ms_between_frames=30, figuresize=(11, 4), saveas=""):
         if "mp4" in saveas:
             Writer = animation.writers["ffmpeg"]
             writer = Writer(
-                fps=int(1000 / ms_between_frames), metadata=dict(artist="Me"), bitrate=1800
+                fps=int(1000 / ms_between_frames),
+                metadata=dict(artist="Me"),
+                bitrate=1800,
             )
         if "mp4" in saveas:
             print(f"Saving as {saveas}")

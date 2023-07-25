@@ -1,7 +1,7 @@
 # panim - Pulse Animation
 
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-[![Documentation](https://img.shields.io/badge/info-documentation-informational)](https://jobirk.github.io/panim/)
+[![Documentation](https://img.shields.io/badge/info-documentation-informational)](https://joschkabirk.github.io/panim/)
 
 Python package to visualise the construction and the propagation of light pulses.
 To do that, the pulse is constructed from spectral components, aiming for a good

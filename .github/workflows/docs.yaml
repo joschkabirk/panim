@@ -5,7 +5,7 @@ on: [push]
 jobs:
   docs:
     runs-on: ubuntu-latest
-    container: python:3.8
+    container: python:3.11
     name: Build documentation and deploy on gh-pages
 
     steps:

@@ -12,6 +12,7 @@ import json
 import os
 from shutil import copy
 from subprocess import run
+import subprocess
 
 
 def build_docs_version(version):
@@ -53,9 +54,14 @@ def main():
 
     # get currently active branch
     command = "git rev-parse --abbrev-ref HEAD".split()
-    initial_branch = (
-        run(command, capture_output=True, check=True).stdout.strip().decode("utf-8")
-    )
+    try:
+        initial_branch = (
+            run(command, capture_output=True, check=True, stderr=subprocess.STDOUT)
+            .stdout.strip()
+            .decode("utf-8")
+        )
+    except subprocess.CalledProcessError as e:
+        print("Exception on process, rc=", e.returncode, "output=", e.output)
 
     copy("docs/source/conf.py", "./conf_latest.py")
 

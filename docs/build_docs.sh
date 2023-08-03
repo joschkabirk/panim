@@ -9,6 +9,8 @@ pip install -r docs/requirements.txt
 # add current working directory to PYTHONPATH such that package is found
 export PYTHONPATH=$PWD:$PYTHONPATH
 
+git config --global --add safe.directory /__w/panim/panim
+
 # build the documentation
 rm -rf docs/_*
 python docs/sphinx_build_multiversion.py

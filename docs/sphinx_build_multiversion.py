@@ -53,15 +53,16 @@ def main():
         version_switcher = json.load(f)
 
     # get currently active branch
-    command = "git rev-parse --abbrev-ref HEAD".split()
-    try:
-        initial_branch = (
-            run(command, capture_output=True, check=True, stderr=subprocess.STDOUT)
-            .stdout.strip()
-            .decode("utf-8")
-        )
-    except subprocess.CalledProcessError as e:
-        print("Exception on process, rc=", e.returncode, "output=", e.output)
+    # command = "git rev-parse --abbrev-ref HEAD".split()
+    # try:
+    #     initial_branch = (
+    #         run(command, capture_output=False, check=True, stderr=subprocess.STDOUT)
+    #         .stdout.strip()
+    #         .decode("utf-8")
+    #     )
+    # except subprocess.CalledProcessError as e:
+    #     print("Exception on process, rc=", e.returncode, "output=", e.output)
+    initial_branch = "master"
 
     copy("docs/source/conf.py", "./conf_latest.py")
 

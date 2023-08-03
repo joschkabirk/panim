@@ -9,6 +9,7 @@ pip install -r docs/requirements.txt
 # add current working directory to PYTHONPATH such that package is found
 export PYTHONPATH=$PWD:$PYTHONPATH
 
+# had to add this to make it work on GitHub
 git config --global --add safe.directory /__w/panim/panim
 
 # build the documentation

@@ -52,8 +52,6 @@ def main():
     with open("docs/source/_static/switcher.json", "r") as f:  # pylint: disable=W1514
         version_switcher = json.load(f)
 
-    print("current directory:", os.getcwd())
-
     # get currently active branch
     command = "git rev-parse --abbrev-ref HEAD".split()
     initial_branch = run(command, capture_output=True, check=True).stdout.strip().decode("utf-8")

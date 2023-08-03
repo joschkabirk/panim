@@ -8,6 +8,7 @@ pulse-venv
 *.mp4
 *.png
 .vscode
+venv
 
 # artifacts from pip install
 *.egg-info

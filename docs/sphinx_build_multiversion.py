@@ -54,31 +54,28 @@ def main():
 
     print("current directory:", os.getcwd())
     # get currently active branch
-    # command = "git rev-parse --abbrev-ref HEAD".split()
+    command = "git rev-parse --abbrev-ref HEAD".split()
     # try:
-    #     initial_branch = (
-    #         run(command, capture_output=False, check=True, stderr=subprocess.STDOUT)
-    #         .stdout.strip()
-    #         .decode("utf-8")
-    #     )
+    initial_branch = run(command, capture_output=False, check=True).stdout.strip().decode("utf-8")
+    
     # except subprocess.CalledProcessError as e:
     #     print("Exception on process, rc=", e.returncode, "output=", e.output)
-    initial_branch = "master"
+    # initial_branch = "master"
 
-    # copy("docs/source/conf.py", "./conf_latest.py")
+    copy("docs/source/conf.py", "./conf_latest.py")
 
     # build docs for main branch no matter what versions are present in the switcher
     build_docs_version("master")
 
     # build docs for the version that are listed in the version switcher
-    # for entry in version_switcher:
-    #     if entry["version"] == "master":
-    #         continue
-    #     build_docs_version(entry["version"])
+    for entry in version_switcher:
+        if entry["version"] == "master":
+            continue
+        build_docs_version(entry["version"])
 
-    # # checkout initial branch for following steps
-    # run(f"git checkout {initial_branch}", shell=True, check=True)
-    # os.remove("./conf_latest.py")
+    # checkout initial branch for following steps
+    run(f"git checkout {initial_branch}", shell=True, check=True)
+    os.remove("./conf_latest.py")
 
 
 if __name__ == "__main__":

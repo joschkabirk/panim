@@ -53,15 +53,11 @@ def main():
         version_switcher = json.load(f)
 
     print("current directory:", os.getcwd())
+
     # get currently active branch
     command = "git rev-parse --abbrev-ref HEAD".split()
-    # try:
     initial_branch = run(command, capture_output=False, check=True).stdout.strip().decode("utf-8")
     
-    # except subprocess.CalledProcessError as e:
-    #     print("Exception on process, rc=", e.returncode, "output=", e.output)
-    # initial_branch = "master"
-
     copy("docs/source/conf.py", "./conf_latest.py")
 
     # build docs for main branch no matter what versions are present in the switcher

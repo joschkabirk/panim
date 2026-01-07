@@ -1,5 +1,7 @@
-from pulse_animation import *
 import matplotlib
+import numpy as np
+
+from panim import animate_with_time, calc_pulses
 
 matplotlib.rcParams.update({"font.size": 13})
 

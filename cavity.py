@@ -1,11 +1,11 @@
-import numpy as np
 import matplotlib.pyplot as plt
-
-# from scipy import signal
-from matplotlib import animation
+import numpy as np
 
 # import scipy.constants as con
 from IPython.display import HTML
+
+# from scipy import signal
+from matplotlib import animation
 from tqdm import tqdm
 
 # import matplotlib.cm as cm
@@ -23,7 +23,6 @@ def resonator_modes(
     spectrum_std=1000,
     save_in="",
 ):
-
     # length of the resonator
     L = z.max() - z.min()
     # calculate the frequency difference between two neighbouring modes of

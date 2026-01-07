@@ -1,5 +1,5 @@
-from panim import *
 import os
+
 import numpy as np
 
 z = np.linspace(-20, 200, 10000)

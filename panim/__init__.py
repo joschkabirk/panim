@@ -1,12 +1,13 @@
-import numpy as np
+import os
+
 import matplotlib.pyplot as plt
-from scipy import signal
-from matplotlib import animation
+import numpy as np
 
 # import scipy.constants as con
 from IPython.display import HTML
+from matplotlib import animation
+from scipy.signal import windows
 from tqdm import tqdm
-import os
 
 __version__ = "0.1.1dev"
 
@@ -52,7 +53,7 @@ def sin_sum(
     nu_min: float = 0.001,
     N_frequencies: int = 4000,
     spec_width: float = 200,
-    k_i: list = [1, 5, 0],
+    k_i: list | None = None,
     plotting: bool = False,
     z_arrow: bool = False,
     figuresize: tuple = (11, 4),
@@ -108,11 +109,13 @@ def sin_sum(
         E-field amplitude along the z-axis at time t.
 
     """
+    if k_i is None:
+        k_i = [1, 5, 0]
 
     # create array of frequency spectrum and the corresponding weight
     # i.e. how much the given frequency contributes
     frequencies = np.linspace(nu_min, nu_center * 2, N_frequencies)
-    spectrum = signal.gaussian(len(frequencies), std=spec_width)
+    spectrum = windows.gaussian(len(frequencies), std=spec_width)
 
     # create array for spectral components
     E_field_spec_components = np.zeros([len(frequencies), len(z)])
@@ -141,12 +144,11 @@ def sin_sum(
             2 * np.pi * frequencies[i] * t - phi_nu
         )
 
-        if plotting:
-            if frequencies[i] in plotting_frequencies:
-                ax.plot(
-                    z, E_field_spec_components[i], label=frequencies[i]
-                )  # , color=colors[n_plotted])
-                n_plotted += 1
+        if plotting and frequencies[i] in plotting_frequencies:
+            ax.plot(
+                z, E_field_spec_components[i], label=frequencies[i]
+            )  # , color=colors[n_plotted])
+            n_plotted += 1
 
     # Calculate the total E-field as the sum over all spectral components
     E_field = E_field_spec_components.sum(axis=0)
@@ -186,7 +188,7 @@ def sin_sum(
     return E_field
 
 
-def calc_pulses(z, t_start, t_end, n_steps, nu_center=1, k_i=[1, 5, 0], spec_width=100):
+def calc_pulses(z, t_start, t_end, n_steps, nu_center=1, k_i=None, spec_width=100):
     """Calculates the spatial form of the pulse at different times
 
     Parameters
@@ -220,6 +222,8 @@ def calc_pulses(z, t_start, t_end, n_steps, nu_center=1, k_i=[1, 5, 0], spec_wid
         the wave at all time steps.
 
     """
+    if k_i is None:
+        k_i = [1, 5, 0]
 
     times = np.linspace(t_start, t_end, n_steps)
     pulses = np.zeros([n_steps, len(z)])
@@ -425,14 +429,14 @@ def plot_pulses(
     z,
     times,
     nu_center=0.5,
-    k_i=[1, 10, 0],
+    k_i=None,
     spec_width=400,
     no_axes=False,
     plotname="",
     dpi=100,
     figuresize=(11, 4),
     z_arrow=False,
-    colors=["steelblue" for i in range(10)],
+    colors=None,
 ):
     """Plots the pulse at different times
 
@@ -474,6 +478,10 @@ def plot_pulses(
         time steps are plotted with the standard python 'steelblue'.
 
     """
+    if k_i is None:
+        k_i = [1, 10, 0]
+    if colors is None:
+        colors = ["steelblue" for _ in range(10)]
 
     pulses = [
         sin_sum(z, t, nu_center=nu_center, k_i=k_i, spec_width=spec_width)

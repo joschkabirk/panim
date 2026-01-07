@@ -12,8 +12,9 @@
 
 import os
 import sys
-import panim
 from subprocess import run
+
+import panim
 
 sys.path.insert(0, os.path.abspath("."))
 sys.path.insert(0, os.path.abspath("../../panim"))
@@ -74,10 +75,7 @@ git_branch = (
     run(command, capture_output=True, check=True).stdout.strip().decode("utf-8")
 )
 
-if "dev" in release:
-    version_match = "master"
-else:
-    version_match = f"v{release}"
+version_match = "master" if "dev" in release else f"v{release}"
 
 html_theme = "pydata_sphinx_theme"
 html_theme_options = {

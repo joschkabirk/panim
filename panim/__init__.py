@@ -6,7 +6,7 @@ import numpy as np
 # import scipy.constants as con
 from IPython.display import HTML
 from matplotlib import animation
-from scipy import signal
+from scipy.signal import windows
 from tqdm import tqdm
 
 __version__ = "0.1.1dev"
@@ -115,7 +115,7 @@ def sin_sum(
     # create array of frequency spectrum and the corresponding weight
     # i.e. how much the given frequency contributes
     frequencies = np.linspace(nu_min, nu_center * 2, N_frequencies)
-    spectrum = signal.gaussian(len(frequencies), std=spec_width)
+    spectrum = windows.gaussian(len(frequencies), std=spec_width)
 
     # create array for spectral components
     E_field_spec_components = np.zeros([len(frequencies), len(z)])

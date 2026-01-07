@@ -7,7 +7,7 @@ Python package to visualise the construction and the propagation of light pulses
 To do that, the pulse is constructed from spectral components, aiming for a good
 approximation of a Fourier transform.
 
-![](https://raw.githubusercontent.com/jobirk/panim/master/docs/source/assets/optical_fibre_old.gif)
+![](https://raw.githubusercontent.com/joschkabirk/panim/master/assets/optical_fibre_old.gif)
 
 You start with defining a frequency spectrum of the pulse you want to visualise.
 Afterwards, the code constructs the spectral components of the pulse according
@@ -22,7 +22,7 @@ frequency `k(ν)`.
 The function is constructed as the Taylor expansion around the center
 frequency `ν0`.
 
-![](https://raw.githubusercontent.com/jobirk/panim/master/docs/source/assets/what_it_does.png)
+![](https://raw.githubusercontent.com/joschkabirk/panim/master/assets/what_it_does.png)
 
 This allows to visualise different effects that occur when
 propagating the pulse along a z-axis.
@@ -86,4 +86,4 @@ since only the spectral phases are changed, but not the amplitudes, which means
 that the spectral distribution is still a Gaussian, and therefore also the
 pulse in time is a Gaussian.
 
-![](https://raw.githubusercontent.com/jobirk/panim/master/docs/source/assets/spatial_vs_time.gif)
+![](https://raw.githubusercontent.com/joschkabirk/panim/master/assets/spatial_vs_time.gif)

@@ -1,5 +1,31 @@
 [build-system]
-requires = ["setuptools", "wheel"]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "panim"
+version = "0.1.1dev"
+description = "Plotting API for the visualization of light pulses."
+keywords = ["plots", "physics", "optics"]
+readme = "README.md"
+license = "MIT"
+requires-python = ">= 3.8"
+dependencies = [
+    "ipython",
+    "jupyter",
+    "matplotlib",
+    "numpy",
+    "scipy",
+    "tqdm",
+]
+
+[project.urls]
+Homepage = "https://github.com/joschkabirk/panim"
+
+[tool.setuptools]
+packages = ["panim"]
+zip-safe = false
+include-package-data = true
 
 [tool.black]
 line-length = 88

@@ -4,19 +4,15 @@ __pycache__
 pulse-venv
 *.code-workspace
 .DS_Store
-*.pdf
-*.mp4
-*.png
 .vscode
 venv
+
+# generated outputs (but not assets/)
+plots/
+animations/
+*.pdf
+*.mp4
 
 # artifacts from pip install
 *.egg-info
 build
-
-# artifacts from sphinx build
-docs/_build
-docs/*.rst
-examples_for_ci.py
-examples_output
-replace_placeholders_in_md.py

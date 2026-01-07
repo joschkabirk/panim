@@ -7,7 +7,7 @@ Python package to visualise the construction and the propagation of light pulses
 To do that, the pulse is constructed from spectral components, aiming for a good
 approximation of a Fourier transform.
 
-![](https://raw.githubusercontent.com/joschkabirk/panim/main/assets/optical_fibre_old.gif)
+![](assets/optical_fibre_old.gif)
 
 You start with defining a frequency spectrum of the pulse you want to visualise.
 Afterwards, the code constructs the spectral components of the pulse according
@@ -22,7 +22,7 @@ frequency `k(ν)`.
 The function is constructed as the Taylor expansion around the center
 frequency `ν0`.
 
-![](https://raw.githubusercontent.com/joschkabirk/panim/main/assets/what_it_does.png)
+![](assets/what_it_does.png)
 
 This allows to visualise different effects that occur when
 propagating the pulse along a z-axis.
@@ -37,7 +37,7 @@ If the refractive index is the same for all frequencies, then the wave vector
 where `n` is the refractive index and `c_0` the speed of light in vacuum. The
 resulting propagation looks like this
 
-![](https://raw.githubusercontent.com/jobirk/panim/examples-material/group_equal_phase.gif)
+![](assets/group_equal_phase.gif)
 
 which means that phase velocity and group velocity are the same here.
 
@@ -46,7 +46,7 @@ example, the phase velocity and the group velocity differ.
 Assuming that all higher order derivatives vanish, the resulting
 propagation looks like this:
 
-![](https://raw.githubusercontent.com/jobirk/panim/examples-material/first_order_dispersion.gif)
+![](assets/first_order_dispersion.gif)
 
 ## Group delay
 
@@ -69,7 +69,7 @@ If also the second order dispersion is non-zero, then group
 velocity dispersion (GVD) occurs, resulting in a linear frequency chirp
 of the pulse:
 
-![](https://raw.githubusercontent.com/jobirk/panim/examples-material/second_order_dispersion.gif)
+![](assets/second_order_dispersion.gif)
 
 ## Spatial representation vs. time representation
 
@@ -86,4 +86,4 @@ since only the spectral phases are changed, but not the amplitudes, which means
 that the spectral distribution is still a Gaussian, and therefore also the
 pulse in time is a Gaussian.
 
-![](https://raw.githubusercontent.com/joschkabirk/panim/main/assets/spatial_vs_time.gif)
+![](assets/spatial_vs_time.gif)

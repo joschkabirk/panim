@@ -17,15 +17,6 @@ jobs:
       - name: Install package
         run: pip install .
       - name: Install system dependencies
-        # rsync is needed for the subsequently used action
-        run: apt update && apt install -y ffmpeg rsync
+        run: apt update && apt install -y ffmpeg
       - name: Run example tests
         run: for f in examples/*.py; do python "$f"; done
-      # This action will only update the examples-material branch if it
-      # is affected by the changes that triggered the job
-      - name: Upload examples-material
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        uses: JamesIves/github-pages-deploy-action@3.7.1
-        with:
-          BRANCH: examples-material
-          FOLDER: plots

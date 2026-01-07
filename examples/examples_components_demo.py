@@ -2,7 +2,7 @@ import os
 
 import numpy as np
 
-from panim import *
+from panim import plot_pulses, sin_sum
 
 z = np.linspace(-20, 200, 10000)
 # +z_max=100 - nice settings to get three good pulses with stretching

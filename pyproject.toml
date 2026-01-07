@@ -53,12 +53,6 @@ ignore = [
     "E501",   # line too long (handled by formatter)
 ]
 
-[tool.ruff.lint.per-file-ignores]
-"examples/*" = ["F403", "F405"]  # Allow star imports in examples
-"*.ipynb" = ["F403", "F405"]     # Allow star imports in notebooks
-"optical_fibre.py" = ["F403", "F405"]  # Allow star imports
-"cavity.py" = ["F403", "F405"]   # Allow star imports
-
 [tool.mypy]
 python_version = "3.10"
 warn_return_any = true

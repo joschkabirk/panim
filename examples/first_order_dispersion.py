@@ -2,7 +2,7 @@ import os
 
 import numpy as np
 
-from panim import *
+from panim import animate, calc_pulses
 
 z = np.linspace(-20, 200, 10000)
 os.makedirs("plots", exist_ok=True)

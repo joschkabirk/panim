@@ -1,6 +1,8 @@
-from panim import *
 import os
+
 import numpy as np
+
+from panim import *
 
 z = np.linspace(-20, 200, 10000)
 # +z_max=100 - nice settings to get three good pulses with stretching
@@ -28,7 +30,7 @@ d = sin_sum(
     0,
     N_frequencies=4000,
     nu_center=0.15,
-    k_i=(1, 3, 2),
+    k_i=[1, 3, 2],
     spec_width=100,
     plotting=True,
     figuresize=(11, 1.2),

@@ -9,7 +9,7 @@ description = "Plotting API for the visualization of light pulses."
 keywords = ["plots", "physics", "optics"]
 readme = "README.md"
 license = "MIT"
-requires-python = ">= 3.8"
+requires-python = ">= 3.10"
 dependencies = [
     "ipython",
     "jupyter",
@@ -27,13 +27,40 @@ packages = ["panim"]
 zip-safe = false
 include-package-data = true
 
-[tool.black]
+[project.optional-dependencies]
+dev = [
+    "pre-commit",
+    "ruff",
+    "mypy",
+    "types-tqdm",
+]
+
+[tool.ruff]
 line-length = 88
-target-version = ['py39']
-include = '\.pyi?$'
-exclude = '''
-/(
-    \.git
-  | .eggs
-)/
-'''
+target-version = "py310"
+
+[tool.ruff.lint]
+select = [
+    "E",      # pycodestyle errors
+    "W",      # pycodestyle warnings
+    "F",      # pyflakes
+    "I",      # isort
+    "UP",     # pyupgrade
+    "B",      # flake8-bugbear
+    "SIM",    # flake8-simplify
+]
+ignore = [
+    "E501",   # line too long (handled by formatter)
+]
+
+[tool.ruff.lint.per-file-ignores]
+"examples/*" = ["F403", "F405"]  # Allow star imports in examples
+"*.ipynb" = ["F403", "F405"]     # Allow star imports in notebooks
+"optical_fibre.py" = ["F403", "F405"]  # Allow star imports
+"cavity.py" = ["F403", "F405"]   # Allow star imports
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+ignore_missing_imports = true

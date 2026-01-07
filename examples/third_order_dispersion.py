@@ -1,6 +1,8 @@
-from panim import *
 import os
+
 import numpy as np
+
+from panim import *
 
 z = np.linspace(-20, 200, 10000)
 os.makedirs("plots", exist_ok=True)

@@ -1,14 +1,15 @@
-import os
+"""Third order dispersion example.
 
-import numpy as np
+This is commented out to avoid running it in the CI pipeline as it's slow.
+"""
 
-z = np.linspace(-20, 200, 10000)
-os.makedirs("plots", exist_ok=True)
+from pathlib import Path
 
-# this is just here as an example, but commented out to avoid running it in the pipeline
-# for now
+Path("plots").mkdir(exist_ok=True)
 
-# Third order dispersion
+# Third order dispersion - commented out to avoid slow CI runs
+# from panim import animate, calc_pulses
+#
 # z = np.linspace(-30, 600, 1000)
 # p = calc_pulses(
 #     z,
@@ -22,7 +23,7 @@ os.makedirs("plots", exist_ok=True)
 # animate(
 #     z,
 #     p,
-#     ms_between_frames=40,
+#     fps=15,
 #     figuresize=(14, 4),
-#     saveas="./plots/3rd_order_dispersion.gif",
+#     saveas="./plots/third_order_dispersion.gif",
 # )

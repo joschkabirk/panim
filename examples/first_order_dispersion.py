@@ -1,14 +1,15 @@
-import os
+"""First order dispersion example.
+
+See: https://www.rp-photonics.com/chromatic_dispersion.html
+"""
+
+from pathlib import Path
 
 import numpy as np
 
 from panim import animate, calc_pulses
 
-z = np.linspace(-20, 200, 10000)
-os.makedirs("plots", exist_ok=True)
-
-# See here for overview of dispersion terms:
-# https://www.rp-photonics.com/chromatic_dispersion.html
+Path("plots").mkdir(exist_ok=True)
 
 # First order dispersion
 z = np.linspace(0, 100, 1000)
@@ -24,7 +25,8 @@ p = calc_pulses(
 animate(
     z,
     p,
-    ms_between_frames=40,
-    figuresize=(14, 4),
+    fps=15,
+    figuresize=(7, 2.2),
     saveas="./plots/first_order_dispersion.gif",
+    dpi=80,
 )

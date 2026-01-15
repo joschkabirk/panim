@@ -12,4 +12,7 @@ done
 echo "Copying outputs to assets folder..."
 cp plots/*.gif assets/ 2>/dev/null || true
 
+# this script
+python scripts/round_corners.py --overwrite
+
 echo "Done!"

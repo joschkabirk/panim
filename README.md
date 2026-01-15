@@ -1,13 +1,10 @@
 # panim - Pulse Animation
 
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-[![Documentation](https://img.shields.io/badge/info-documentation-informational)](https://joschkabirk.github.io/panim/)
-
 Python package to visualise the construction and the propagation of light pulses.
 To do that, the pulse is constructed from spectral components, aiming for a good
 approximation of a Fourier transform.
 
-![](assets/optical_fibre_old.gif)
+<img src="assets/optical_fibre.gif" alt="Optical fibre pulse propagation" width="600"/>
 
 You start with defining a frequency spectrum of the pulse you want to visualise.
 Afterwards, the code constructs the spectral components of the pulse according
@@ -22,7 +19,7 @@ frequency `k(ν)`.
 The function is constructed as the Taylor expansion around the center
 frequency `ν0`.
 
-![](assets/what_it_does.png)
+<img src="assets/what_it_does.png" alt="What it does" width="600"/>
 
 This allows to visualise different effects that occur when
 propagating the pulse along a z-axis.
@@ -37,7 +34,7 @@ If the refractive index is the same for all frequencies, then the wave vector
 where `n` is the refractive index and `c_0` the speed of light in vacuum. The
 resulting propagation looks like this
 
-![](assets/group_equal_phase.gif)
+<img src="assets/group_equal_phase.gif" alt="Group velocity equals phase velocity" width="600"/>
 
 which means that phase velocity and group velocity are the same here.
 
@@ -46,7 +43,7 @@ example, the phase velocity and the group velocity differ.
 Assuming that all higher order derivatives vanish, the resulting
 propagation looks like this:
 
-![](assets/first_order_dispersion.gif)
+<img src="assets/first_order_dispersion.gif" alt="First order dispersion" width="600"/>
 
 ## Group delay
 
@@ -69,7 +66,7 @@ If also the second order dispersion is non-zero, then group
 velocity dispersion (GVD) occurs, resulting in a linear frequency chirp
 of the pulse:
 
-![](assets/second_order_dispersion.gif)
+<img src="assets/second_order_dispersion.gif" alt="Second order dispersion" width="600"/>
 
 ## Spatial representation vs. time representation
 
@@ -86,4 +83,4 @@ since only the spectral phases are changed, but not the amplitudes, which means
 that the spectral distribution is still a Gaussian, and therefore also the
 pulse in time is a Gaussian.
 
-![](assets/spatial_vs_time.gif)
+<img src="assets/spatial_vs_time.gif" alt="Spatial vs time representation" width="600"/>

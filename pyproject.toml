@@ -4,36 +4,62 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "panim"
-version = "0.1.1dev"
-description = "Plotting API for the visualization of light pulses."
-keywords = ["plots", "physics", "optics"]
+dynamic = ["version"]
+description = "A library for visualizing the construction and propagation of light pulses."
+keywords = ["plots", "physics", "optics", "visualization", "pulse", "dispersion"]
 readme = "README.md"
 license = "MIT"
 requires-python = ">= 3.10"
+authors = [
+    { name = "Joschka Birk" },
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Physics",
+    "Topic :: Scientific/Engineering :: Visualization",
+    "Typing :: Typed",
+]
 dependencies = [
-    "ipython",
+    "ipython>=8.0",
+    "matplotlib>=3.5",
+    "numpy>=1.21",
+    "scipy>=1.7",
+    "tqdm>=4.60",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pre-commit>=3.0",
+    "ruff>=0.1",
+    "mypy>=1.0",
+    "types-tqdm",
+    "pytest>=7.0",
+    "pytest-cov>=4.0",
+]
+docs = [
     "jupyter",
-    "matplotlib",
-    "numpy",
-    "scipy",
-    "tqdm",
 ]
 
 [project.urls]
 Homepage = "https://github.com/joschkabirk/panim"
+Repository = "https://github.com/joschkabirk/panim"
+Issues = "https://github.com/joschkabirk/panim/issues"
 
-[tool.setuptools]
-packages = ["panim"]
-zip-safe = false
-include-package-data = true
+[tool.setuptools.dynamic]
+version = { attr = "panim._version.__version__" }
 
-[project.optional-dependencies]
-dev = [
-    "pre-commit",
-    "ruff",
-    "mypy",
-    "types-tqdm",
-]
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["panim*"]
+
+[tool.setuptools.package-data]
+panim = ["py.typed"]
 
 [tool.ruff]
 line-length = 88
@@ -48,13 +74,42 @@ select = [
     "UP",     # pyupgrade
     "B",      # flake8-bugbear
     "SIM",    # flake8-simplify
+    "D",      # pydocstyle
 ]
 ignore = [
     "E501",   # line too long (handled by formatter)
+    "D100",   # missing docstring in public module
+    "D104",   # missing docstring in public package
+    "D107",   # missing docstring in __init__
 ]
+
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["D"]
 
 [tool.mypy]
 python_version = "3.10"
 warn_return_any = true
 warn_unused_configs = true
 ignore_missing_imports = true
+strict = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-v --tb=short"
+filterwarnings = [
+    "ignore::DeprecationWarning",
+]
+
+[tool.coverage.run]
+source = ["panim"]
+omit = ["tests/*"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "if TYPE_CHECKING:",
+    "if __name__ == .__main__.:",
+]
